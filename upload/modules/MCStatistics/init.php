@@ -1,8 +1,8 @@
 <?php 
 /*
  *	Made by Partydragen
- *  https://github.com/partydragen/MCStatistics
- *  NamelessMC version 2.0.0-pr9
+ *  https://github.com/partydragen/Nameless-MCStatistics
+ *  https://partydragen.com/
  *
  *  License: MIT
  *

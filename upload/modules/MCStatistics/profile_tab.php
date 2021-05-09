@@ -1,4 +1,14 @@
 <?php
+/*
+ *	Made by Partydragen
+ *  https://github.com/partydragen/Nameless-MCStatistics
+ *  https://partydragen.com/
+ *
+ *  License: MIT
+ *
+ *  MCStatistics tab file on profile page
+ */
+
 if (!isset($mcstatistics) || (isset($mcstatistics) && !$mcstatistics instanceof MCStatistics)) {
     require_once(ROOT_PATH . '/modules/MCStatistics/classes/MCStatistics.php');
     $mcstatistics = new MCStatistics($cache);
@@ -25,6 +35,9 @@ if($results != null) {
     } else {
         // Statistics fields
         $fields = array();
+        
+        $hours = $results->play_time / 1000 / 3600;
+        $minutes = ($results->play_time / 1000 % 3600) / 60;
 
         $fields['first_join'] = array(
             'title' => $mcstatistics_language->get('mcstatistics', 'first_join'),
@@ -41,7 +54,7 @@ if($results != null) {
         $fields['play_time'] = array(
             'title' => $mcstatistics_language->get("mcstatistics", 'play_time'),
             'type' => 'text',
-            'value' => $results->play_time / 60
+            'value' => Output::getClean(sprintf("%d hours, %d min", $hours, $minutes))
         );
         $fields['kills'] = array(
             'title' => $mcstatistics_language->get("mcstatistics", 'kills'),

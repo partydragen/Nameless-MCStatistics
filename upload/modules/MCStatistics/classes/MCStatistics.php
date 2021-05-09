@@ -3,7 +3,6 @@
  *	Made by Partydragen
  *  https://github.com/partydragen/Nameless-MCStatistics
  *  https://partydragen.com/
- *  NamelessMC version 2.0.0-pr9
  *
  *  License: MIT
  */

@@ -8,7 +8,7 @@
  */
 
 // Can the user view the panel?
-$user->handlePanelPageLoad('suggestions.manage');
+$user->handlePanelPageLoad('mcstatistics.settings');
 
 define('PAGE', 'panel');
 define('PARENT_PAGE', 'mcstatistics');
