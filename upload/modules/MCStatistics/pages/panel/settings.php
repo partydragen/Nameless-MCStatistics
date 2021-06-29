@@ -8,7 +8,10 @@
  */
 
 // Can the user view the panel?
-$user->handlePanelPageLoad('mcstatistics.settings');
+if(!$user->handlePanelPageLoad('mcstatistics.settings')) {
+    require_once(ROOT_PATH . '/403.php');
+    die();
+}
 
 define('PAGE', 'panel');
 define('PARENT_PAGE', 'mcstatistics');
