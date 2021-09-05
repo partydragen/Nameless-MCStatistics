@@ -57,7 +57,8 @@
                             </div>
                         </form>
                         
-                        <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></p></center>
+                        <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
+                        Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
                     </div>
                 </div>
 

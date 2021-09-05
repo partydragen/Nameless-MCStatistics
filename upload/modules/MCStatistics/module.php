@@ -69,9 +69,9 @@ class MCStatistics_Module extends Module {
             // Navigation
             $cache->setCache('panel_sidebar');
             
-            PermissionHandler::registerPermissions($this->_mcstatistics_language->get('mcstatistics', 'mcstatistics'), array(
-                'mcstatistics.settings' => $this->_mcstatistics_language->get('mcstatistics', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('mcstatistics', 'settings'),
-                'mcstatistics.players' => $this->_mcstatistics_language->get('mcstatistics', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('mcstatistics', 'players')
+            PermissionHandler::registerPermissions($this->_mcstatistics_language->get('general', 'mcstatistics'), array(
+                'mcstatistics.settings' => $this->_mcstatistics_language->get('general', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('general', 'settings'),
+                'mcstatistics.players' => $this->_mcstatistics_language->get('general', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('general', 'players')
             ));
             
             if($user->hasPermission('mcstatistics.settings') || $user->hasPermission('mcstatistics.players')){
@@ -88,8 +88,8 @@ class MCStatistics_Module extends Module {
                 } else
                     $icon = $cache->retrieve('mcstatistics_icon');
 
-                $navs[2]->add('mcstatistics_divider', mb_strtoupper($this->_mcstatistics_language->get('mcstatistics', 'mcstatistics'), 'UTF-8'), 'divider', 'top', null, $order, '');
-                $navs[2]->addDropdown('mcstatistics', $this->_mcstatistics_language->get('mcstatistics', 'mcstatistics'), 'top', $order, $icon);
+                $navs[2]->add('mcstatistics_divider', mb_strtoupper($this->_mcstatistics_language->get('general', 'mcstatistics'), 'UTF-8'), 'divider', 'top', null, $order, '');
+                $navs[2]->addDropdown('mcstatistics', $this->_mcstatistics_language->get('general', 'mcstatistics'), 'top', $order, $icon);
                 
                 if($user->hasPermission('mcstatistics.settings')) {
                     if(!$cache->isCached('mcstatistics_settings_icon')){
@@ -98,7 +98,7 @@ class MCStatistics_Module extends Module {
                     } else
                         $icon = $cache->retrieve('mcstatistics_settings_icon');
                     
-                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_settings', $this->_mcstatistics_language->get('mcstatistics', 'settings'), URL::build('/panel/mcstatistics/settings'), 'top', $order, $icon);
+                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_settings', $this->_mcstatistics_language->get('general', 'settings'), URL::build('/panel/mcstatistics/settings'), 'top', $order, $icon);
                 }
                 
                 if($user->hasPermission('mcstatistics.players')) {
@@ -108,7 +108,7 @@ class MCStatistics_Module extends Module {
                     } else
                         $icon = $cache->retrieve('mcstatistics_players_icon');
                     
-                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('mcstatistics', 'players'), URL::build('/panel/mcstatistics/players'), 'top', $order, $icon);
+                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/panel/mcstatistics/players'), 'top', $order, $icon);
                 }
                 
                 if(!$cache->isCached('mcstatistics_website_icon')){
@@ -117,7 +117,7 @@ class MCStatistics_Module extends Module {
                 } else
                     $icon = $cache->retrieve('mcstatistics_website_icon');
                 
-                $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('mcstatistics', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
+                $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('admin', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
             }
         }
         
@@ -142,11 +142,11 @@ class MCStatistics_Module extends Module {
                 
                 if(!isset($update_check->error) && !isset($update_check->no_update) && isset($update_check->new_version)){
                     $smarty->assign(array(
-                        'NEW_UPDATE' => str_replace('{x}', $this->getName(), (isset($update_check->urgent) && $update_check->urgent == 'true') ? $this->_mcstatistics_language->get('mcstatistics', 'new_urgent_update_available_x') : $this->_mcstatistics_language->get('mcstatistics', 'new_update_available_x')),
+                        'NEW_UPDATE' => str_replace('{x}', $this->getName(), (isset($update_check->urgent) && $update_check->urgent == 'true') ? $this->_mcstatistics_language->get('admin', 'new_urgent_update_available_x') : $this->_mcstatistics_language->get('admin', 'new_update_available_x')),
                         'NEW_UPDATE_URGENT' => (isset($update_check->urgent) && $update_check->urgent == 'true'),
-                        'CURRENT_VERSION' => str_replace('{x}', $this->getVersion(), $this->_mcstatistics_language->get('mcstatistics', 'current_version_x')),
-                        'NEW_VERSION' => str_replace('{x}', Output::getClean($update_check->new_version), $this->_mcstatistics_language->get('mcstatistics', 'new_version_x')),
-                        'UPDATE' => $this->_mcstatistics_language->get('mcstatistics', 'view_resource'),
+                        'CURRENT_VERSION' => str_replace('{x}', $this->getVersion(), $this->_mcstatistics_language->get('admin', 'current_version_x')),
+                        'NEW_VERSION' => str_replace('{x}', Output::getClean($update_check->new_version), $this->_mcstatistics_language->get('admin', 'new_version_x')),
+                        'UPDATE' => $this->_mcstatistics_language->get('admin', 'view_resource'),
                         'UPDATE_LINK' => Output::getClean($update_check->link)
                     ));
                 }

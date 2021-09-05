@@ -57,11 +57,11 @@ $smarty->assign(array(
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
-    'MCSTATISTICS' => $mcstatistics_language->get('mcstatistics', 'mcstatistics'),
+    'MCSTATISTICS' => $mcstatistics_language->get('general', 'mcstatistics'),
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit'),
-    'SEARCH_FOR_PLAYER' => $mcstatistics_language->get('mcstatistics', 'search_for_player'),
-    'PLAYERS' => $mcstatistics_language->get('mcstatistics', 'players'),
+    'SEARCH_FOR_PLAYER' => $mcstatistics_language->get('general', 'search_for_player'),
+    'PLAYERS' => $mcstatistics_language->get('general', 'players'),
 ));
 
 $page_load = microtime(true) - $start;

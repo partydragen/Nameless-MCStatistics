@@ -41,13 +41,13 @@ if (Input::exists()) {
             else $display_profile = 0;
             $configuration->set('mcstatistics', 'display_profile', $display_profile);
             
-            Session::flash('mcstatistics_success', $mcstatistics_language->get('mcstatistics', 'settings_updated_successfully'));
+            Session::flash('mcstatistics_success', $mcstatistics_language->get('admin', 'settings_updated_successfully'));
             Redirect::to(URL::build('/panel/mcstatistics/settings'));
             die();
         } else {
             foreach($validation->errors() as $error){
 				if(strpos($error, 'secret_key') !== false)
-					$errors[] = $mcstatistics_language->get('mcstatistics', 'invalid_secret_key');
+					$errors[] = $mcstatistics_language->get('admin', 'invalid_secret_key');
 			}
         }
     } else {
@@ -80,13 +80,13 @@ $smarty->assign(array(
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
-    'MCSTATISTICS' => $mcstatistics_language->get('mcstatistics', 'mcstatistics'),
-    'SETTINGS' => $mcstatistics_language->get('mcstatistics', 'settings'),
+    'MCSTATISTICS' => $mcstatistics_language->get('general', 'mcstatistics'),
+    'SETTINGS' => $mcstatistics_language->get('general', 'settings'),
     'INFO' => $language->get('general', 'info'),
-    'SECRET_KEY' => $mcstatistics_language->get('mcstatistics', 'secret_key'),
-    'SECRET_KEY_INFO' => $mcstatistics_language->get('mcstatistics', 'secret_key_info'),
+    'SECRET_KEY' => $mcstatistics_language->get('admin', 'secret_key'),
+    'SECRET_KEY_INFO' => $mcstatistics_language->get('admin', 'secret_key_info'),
     'SECRET_KEY_VALUE' => $configuration->get('mcstatistics', 'secret_key'),
-    'SHOW_STATS_ON_PROFILE' => $mcstatistics_language->get('mcstatistics', 'show_stats_on_profile'),
+    'SHOW_STATS_ON_PROFILE' => $mcstatistics_language->get('admin', 'show_stats_on_profile'),
     'SHOW_STATS_ON_PROFILE_VALUE' => $configuration->get('mcstatistics', 'display_profile'),
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
