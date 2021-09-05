@@ -119,6 +119,9 @@ class MCStatistics_Module extends Module {
                 
                 $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('admin', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
             }
+            
+            if($user->hasPermission('mcstatistics.players'))
+                Core_Module::addUserAction($this->_mcstatistics_language->get('general', 'mcstatistics'), URL::build('/panel/mcstatistics/player/{username}'));
         }
         
         // Check for module updates
