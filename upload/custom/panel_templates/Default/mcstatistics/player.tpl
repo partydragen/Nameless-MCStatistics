@@ -79,9 +79,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{$IP_HISTORY_LINK}">{$IP_HISTORY}</a>
                                     </li>
-                                </ul>  
+                                </ul>
                                 <hr />
-                                
+
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -119,10 +119,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
-                                Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
-
+                            </div>
+                            <div class="card-footer">
+                                MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a>
+                                <span class="float-right">Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></span>
                             </div>
                         </div>
                     </div>

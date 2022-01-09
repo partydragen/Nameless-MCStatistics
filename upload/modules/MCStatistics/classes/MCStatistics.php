@@ -8,21 +8,21 @@
  */
 
 class MCStatistics {
-    
+
     private $_secret_key,
             $_cache,
             $_configuration;
-            
+
     public function __construct($cache) {
         $this->_cache = $cache;
         $this->_configuration = new Configuration($cache);
-        
+
         $secret_key = $this->_configuration->get('mcstatistics', 'secret_key');
         if(!empty($secret_key)) {
             $this->_secret_key = $secret_key;
         }
     }
-    
+
     // Get player data
     public function fetchPlayerData($value) {
         if($this->_secret_key) {
@@ -31,17 +31,17 @@ class MCStatistics {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            
+
             $ch_result = curl_exec($ch);
             $result = json_decode($ch_result);
             curl_close($ch);
-            
+
             return $result;
         }
-        
+
         return null;
     }
-    
+
     // Get player data
     public function fetchPlayerSessions($value) {
         if($this->_secret_key) {
@@ -50,17 +50,17 @@ class MCStatistics {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            
+
             $ch_result = curl_exec($ch);
             $result = json_decode($ch_result);
             curl_close($ch);
-            
+
             return $result;
         }
-        
+
         return null;
     }
-    
+
     // Get player data
     public function fetchPlayerIPHistory($value) {
         if($this->_secret_key) {
@@ -69,17 +69,17 @@ class MCStatistics {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            
+
             $ch_result = curl_exec($ch);
             $result = json_decode($ch_result);
             curl_close($ch);
-            
+
             return $result;
         }
-        
+
         return null;
     }
-    
+
     /*
      *  Check for Module updates
      *  Returns JSON object with information about any updates
@@ -95,7 +95,7 @@ class MCStatistics {
 
         $uid = $queries->getWhere('settings', array('name', '=', 'unique_id'));
         $uid = $uid[0]->value;
-		
+
 		$enabled_modules = Module::getModules();
 		foreach($enabled_modules as $enabled_item){
 			if($enabled_item->getName() == 'MCStatistics'){
@@ -103,7 +103,7 @@ class MCStatistics {
 				break;
 			}
 		}
-		
+
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -117,7 +117,6 @@ class MCStatistics {
 		if (isset($info->message)) {
 			die($info->message);
 		}
-		
         return $update_check;
     }
 }

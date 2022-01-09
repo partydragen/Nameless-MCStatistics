@@ -8,27 +8,27 @@
  *
  *  MCStatistics module file
  */
- 
+
 class MCStatistics_Module extends Module {
     private $_language;
     private $_mcstatistics_language;
-    
+
     public function __construct($language, $mcstatistics_language, $pages, $queries, $navigation, $cache){
         $this->_language = $language;
         $this->_mcstatistics_language = $mcstatistics_language;
-        
+
         $name = 'MCStatistics';
         $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a>';
         $module_version = '1.2.0';
         $nameless_version = '2.0.0-pr11';
-        
+
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
-        
+
         // Define URLs which belong to this module
         $pages->add('MCStatistics', '/panel/mcstatistics/settings', 'pages/panel/settings.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/players', 'pages/panel/players.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/player', 'pages/panel/player.php');
-        
+
         // Check if module version changed
         $cache->setCache('mcstatistics_module_cache');
         if(!$cache->isCached('module_version')){
@@ -37,14 +37,14 @@ class MCStatistics_Module extends Module {
             if($module_version != $cache->retrieve('module_version')) {
                 // Version have changed, Perform actions
                 $cache->store('module_version', $module_version);
-                
+
                 if($cache->isCached('update_check')){
                     $cache->erase('update_check');
                 }
             }
         }
     }
-    
+
     public function onInstall(){
         // Initialise
         $this->initialise();
@@ -64,16 +64,16 @@ class MCStatistics_Module extends Module {
     }
 
     public function onPageLoad($user, $pages, $cache, $smarty, $navs, $widgets, $template){
-        
+
         if(defined('BACK_END')){
             // Navigation
             $cache->setCache('panel_sidebar');
-            
+
             PermissionHandler::registerPermissions($this->_mcstatistics_language->get('general', 'mcstatistics'), array(
                 'mcstatistics.settings' => $this->_mcstatistics_language->get('general', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('general', 'settings'),
                 'mcstatistics.players' => $this->_mcstatistics_language->get('general', 'mcstatistics') . ' &raquo; ' . $this->_mcstatistics_language->get('general', 'players')
             ));
-            
+
             if($user->hasPermission('mcstatistics.settings') || $user->hasPermission('mcstatistics.players')){
                 if(!$cache->isCached('mcstatistics_order')){
                     $order = 48;
@@ -81,7 +81,7 @@ class MCStatistics_Module extends Module {
                 } else {
                     $order = $cache->retrieve('mcstatistics_order');
                 }
-                
+
                 if(!$cache->isCached('mcstatistics_icon')){
                     $icon = '<i class="nav-icon fas fa-wrench"></i>';
                     $cache->store('mcstatistics_icon', $icon);
@@ -90,40 +90,40 @@ class MCStatistics_Module extends Module {
 
                 $navs[2]->add('mcstatistics_divider', mb_strtoupper($this->_mcstatistics_language->get('general', 'mcstatistics'), 'UTF-8'), 'divider', 'top', null, $order, '');
                 $navs[2]->addDropdown('mcstatistics', $this->_mcstatistics_language->get('general', 'mcstatistics'), 'top', $order, $icon);
-                
+
                 if($user->hasPermission('mcstatistics.settings')) {
                     if(!$cache->isCached('mcstatistics_settings_icon')){
                         $icon = '<i class="nav-icon fas fa-cogs"></i>';
                         $cache->store('mcstatistics_settings_icon', $icon);
                     } else
                         $icon = $cache->retrieve('mcstatistics_settings_icon');
-                    
+
                     $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_settings', $this->_mcstatistics_language->get('general', 'settings'), URL::build('/panel/mcstatistics/settings'), 'top', $order, $icon);
                 }
-                
+
                 if($user->hasPermission('mcstatistics.players')) {
                     if(!$cache->isCached('mcstatistics_players_icon')){
                         $icon = '<i class="nav-icon fas fa-users"></i>';
                         $cache->store('mcstatistics_players_icon', $icon);
                     } else
                         $icon = $cache->retrieve('mcstatistics_players_icon');
-                    
+
                     $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/panel/mcstatistics/players'), 'top', $order, $icon);
                 }
-                
+
                 if(!$cache->isCached('mcstatistics_website_icon')){
                     $icon = '<i class="nav-icon fas fa-link"></i>';
                     $cache->store('mcstatistics_website_icon', $icon);
                 } else
                     $icon = $cache->retrieve('mcstatistics_website_icon');
-                
+
                 $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('admin', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
             }
-            
+
             if($user->hasPermission('mcstatistics.players'))
                 Core_Module::addUserAction($this->_mcstatistics_language->get('general', 'mcstatistics'), URL::build('/panel/mcstatistics/player/{username}'));
         }
-        
+
         // Check for module updates
         if(isset($_GET['route']) && $user->isLoggedIn() && $user->hasPermission('admincp.update')){
             if(rtrim($_GET['route'], '/') == '/panel/mcstatistics/settings' || rtrim($_GET['route'], '/') == '/panel/mcstatistics/players'){
@@ -142,7 +142,7 @@ class MCStatistics_Module extends Module {
                     $cache->setCache('partydragen');
                     $cache->store('premium', (bool) $update_check->premium);
                 }
-                
+
                 if(!isset($update_check->error) && !isset($update_check->no_update) && isset($update_check->new_version)){
                     $smarty->assign(array(
                         'NEW_UPDATE' => str_replace('{x}', $this->getName(), (isset($update_check->urgent) && $update_check->urgent == 'true') ? $this->_mcstatistics_language->get('admin', 'new_urgent_update_available_x') : $this->_mcstatistics_language->get('admin', 'new_update_available_x')),
@@ -156,7 +156,7 @@ class MCStatistics_Module extends Module {
             }
         }
     }
-    
+
     private function initialise(){
         // Generate tables
         try {
@@ -174,11 +174,11 @@ class MCStatistics_Module extends Module {
             $charset = 'latin1';
 
         $queries = new Queries();
-        
+
         if(!$queries->tableExists('mcstatistics_settings')){
             try {
                 $queries->createTable("mcstatistics_settings", " `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `value` varchar(2048) NOT NULL, PRIMARY KEY (`id`)", "ENGINE=$engine DEFAULT CHARSET=$charset");
-                
+
                 // Insert data
                 $queries->create('mcstatistics_settings', array(
                     'name' => 'secret_key',
@@ -192,7 +192,7 @@ class MCStatistics_Module extends Module {
                 // Error
             }
         }
-        
+
         try {
             $queries->addPermissionGroup(2, 'mcstatistics.settings');
             $queries->addPermissionGroup(2, 'mcstatistics.players');

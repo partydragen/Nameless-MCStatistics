@@ -38,7 +38,7 @@
 
                         <!-- Success and Error Alerts -->
                         {include file='includes/alerts.tpl'}
-                        
+
                         <form action="" method="post">
                             <div class="form-group">
                                 <label for="search">{$SEARCH_FOR_PLAYER}</label>
@@ -50,10 +50,10 @@
                                 <input type="submit" class="btn btn-primary" value="{$SUBMIT}">
                             </div>
                         </form>
-                                               
-                        <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
-                        Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
-
+                    </div>
+                    <div class="card-footer">
+                        MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a>
+                        <span class="float-right">Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></span>
                     </div>
                 </div>
 

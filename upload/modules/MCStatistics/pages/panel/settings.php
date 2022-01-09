@@ -31,16 +31,16 @@ if (Input::exists()) {
 				'max' => 64
 			),
         ));
-        
+
         if($validation->passed()){
             // Update secret key
             $configuration->set('mcstatistics', 'secret_key', Input::get('secret_key'));
-            
+
             // Update show stats on profile page value
             if(isset($_POST['display_profile']) && $_POST['display_profile'] == 'on') $display_profile = 1;
             else $display_profile = 0;
             $configuration->set('mcstatistics', 'display_profile', $display_profile);
-            
+
             Session::flash('mcstatistics_success', $mcstatistics_language->get('admin', 'settings_updated_successfully'));
             Redirect::to(URL::build('/panel/mcstatistics/settings'));
             die();

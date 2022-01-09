@@ -39,7 +39,7 @@ if($results != null) {
     } else {
         // Statistics fields
         $fields = array();
-        
+
         $hours = $results->play_time / 1000 / 3600;
         $minutes = ($results->play_time / 1000 % 3600) / 60;
 

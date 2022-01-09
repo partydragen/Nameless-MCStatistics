@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-body">
@@ -82,7 +82,7 @@
                                     </li>
                                 </ul>
                                 <hr />
-                                            
+
                                 {if count($IP_HISTORY_LIST)}
                                 <div class="table-responsive">
                                   <table class="table table-striped">
@@ -105,14 +105,15 @@
                                 {else}
                                 <p>{$NO_DATA_AVAILABLE}</p>
                                 {/if}
-                                
-                                <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
-                                Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
+                            </div>
+                            <div class="card-footer">
+                                MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a>
+                                <span class="float-right">Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></span>
                             </div>
                         </div>
                     </div>
                 </div>
-        
+
                 <!-- Spacing -->
                 <div style="height:1rem;"></div>
 

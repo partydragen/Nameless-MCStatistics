@@ -64,14 +64,14 @@ if(!isset($_GET['view'])) {
     switch($_GET['view']) {
         case 'sessions':
             $sessions_results = $mcstatistics->fetchPlayerSessions($results->_id);
-            
+
             $sessions_list = array();
             foreach($sessions_results->sessions as $session) {
                 $playtime = $session->play_time / 1000;
-                    
+
                 $hours = $playtime / 3600;
                 $minutes = ($playtime % 3600) / 60;
-                
+
                 $sessions_list[] = array(
                     'session_start' => date('d M Y, H:i', $session->session_start / 1000),
                     'session_end' => date('d M Y, H:i', $session->session_end / 1000),
@@ -80,7 +80,7 @@ if(!isset($_GET['view'])) {
                     'version' => Output::getClean($session->version),
                 );
             }
-            
+
             $smarty->assign(array(
                 'SESSIONS_LIST' => $sessions_list,
                 'SESSION_START' => $mcstatistics_language->get('admin', 'session_start'),
@@ -89,7 +89,7 @@ if(!isset($_GET['view'])) {
                 'VERSION' => $mcstatistics_language->get('admin', 'version'),
                 'IP_ADDRESS' => $mcstatistics_language->get('admin', 'ip_address'),
             ));
-        
+
             $template_file = 'mcstatistics/player_sessions.tpl';
         break;
         case 'ip_history':
@@ -102,12 +102,12 @@ if(!isset($_GET['view'])) {
                     'sessions' => Output::getClean($ip->sessions)
                 );
             }
-            
+
             $smarty->assign(array(
                 'IP_HISTORY_LIST' => $ip_history_list,
                 'IP_ADDRESS' => $mcstatistics_language->get('admin', 'ip_address'),
             ));
-        
+
             $template_file = 'mcstatistics/player_ip_history.tpl';
         break;
     }

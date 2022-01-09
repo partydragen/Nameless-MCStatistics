@@ -26,7 +26,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{$PANEL_INDEX}">{$DASHBOARD}</a></li>
                         <li class="breadcrumb-item">{$MCSTATISTICS}</li>
-                            <li class="breadcrumb-item active">{$SETTINGS}</li>
+                        <li class="breadcrumb-item active">{$SETTINGS}</li>
                     </ol>
                 </div>
 
@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <h3 style="display:inline;">{$SETTINGS}</h3>
                         <hr>
-                        
+
                         <!-- Success and Error Alerts -->
                         {include file='includes/alerts.tpl'}
 
@@ -56,9 +56,10 @@
                                 <input type="submit" class="btn btn-primary" value="{$SUBMIT}">
                             </div>
                         </form>
-                        
-                        <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
-                        Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
+                    </div>
+                    <div class="card-footer">
+                        MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a>
+                        <span class="float-right">Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></span>
                     </div>
                 </div>
 
