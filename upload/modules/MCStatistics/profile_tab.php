@@ -18,10 +18,13 @@ require_once(ROOT_PATH . '/core/integration/uuid.php');
 
 $cache->setCache('mcstatistics');
 if(!$cache->isCached('user_' . $query->id)){
-    if(!empty($query->uuid)) {
+    $uuid_linking = $queries->getWhere('settings', ['name', '=', 'uuid_linking']);
+    $uuid_linking = $uuid_linking[0]->value;
+    
+    if($uuid_linking == '1' && !empty($query->uuid)) {
         $results = $mcstatistics->fetchPlayerData(ProfileUtils::formatUUID($query->uuid));
     } else {
-        $results = $mcstatistics->fetchPlayerData(ProfileUtils::formatUUID($query->username));
+        $results = $mcstatistics->fetchPlayerData($query->username);
     }
     $cache->setCache('mcstatistics');
     $cache->store('user_' . $query->id, $results, 120);
