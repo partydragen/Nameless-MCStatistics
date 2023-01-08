@@ -8,16 +8,11 @@
  */
 
 class MCStatistics {
-    
-    private $_secret_key,
-            $_cache,
-            $_configuration;
-            
-    public function __construct($cache) {
-        $this->_cache = $cache;
-        $this->_configuration = new Configuration($cache);
-        
-        $secret_key = $this->_configuration->get('mcstatistics', 'secret_key');
+
+    private $_secret_key;
+
+    public function __construct() {
+        $secret_key = Util::getSetting('secret_key', '', 'MCStatistics');
         if(!empty($secret_key)) {
             $this->_secret_key = $secret_key;
         }

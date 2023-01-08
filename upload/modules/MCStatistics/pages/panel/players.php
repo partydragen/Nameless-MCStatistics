@@ -25,13 +25,13 @@ if (Input::exists()) {
     // Check token
     if (Token::check()) {
         Redirect::to(URL::build('/panel/mcstatistics/player/' . Output::getClean(Input::get('search'))));
-        die();
     } else {
         $errors = array($language->get('general', 'invalid_token'));
     }
 }
+
 // Load modules + template
-Module::loadPage($user, $pages, $cache, $smarty, array($navigation, $cc_nav, $mod_nav), $widgets);
+Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 if(Session::exists('mcstatistics_success'))
     $success = Session::flash('mcstatistics_success');
@@ -53,7 +53,7 @@ if(isset($errors) && count($errors)){
     ));
 }
 
-$smarty->assign(array(
+$smarty->assign([
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
@@ -62,10 +62,7 @@ $smarty->assign(array(
     'SUBMIT' => $language->get('general', 'submit'),
     'SEARCH_FOR_PLAYER' => $mcstatistics_language->get('general', 'search_for_player'),
     'PLAYERS' => $mcstatistics_language->get('general', 'players'),
-));
-
-$page_load = microtime(true) - $start;
-define('PAGE_LOAD_TIME', str_replace('{x}', round($page_load, 3), $language->get('general', 'page_loaded_in')));
+]);
 
 $template->onPageLoad();
 

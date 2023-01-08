@@ -20,45 +20,37 @@ define('PARENT_PAGE', 'mcstatistics');
 define('PANEL_PAGE', 'mcstatistics_players');
 $page_title = $language->get('admin', 'general_settings');
 require_once(ROOT_PATH . '/core/templates/backend_init.php');
-$timeago = new Timeago(TIMEZONE);
+$timeago = new TimeAgo(TIMEZONE);
 
 $player = explode('/', $route);
 $player = $player[count($player) - 1];
 
 if (!strlen($player)) {
     Redirect::to(URL::build('/panel/mcstatistics/players'));
-    die();
 }
 
 $player = explode('-', $player);
 $player = $player[0];
 
 // Load modules + template
-Module::loadPage($user, $pages, $cache, $smarty, array($navigation, $cc_nav, $mod_nav), $widgets);
-
-if (!isset($mcstatistics) || (isset($mcstatistics) && !$mcstatistics instanceof MCStatistics)) {
-    require_once(ROOT_PATH . '/modules/MCStatistics/classes/MCStatistics.php');
-    $mcstatistics = new MCStatistics($cache);
-}
+Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 $results = $mcstatistics->fetchPlayerData($player);
-if($results != null) {
-    if(isset($results->error) && $results->error == true) {
+if ($results != null) {
+    if (isset($results->error) && $results->error == true) {
         if($results->code == 20) {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'player_not_found'));
         } else {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'failed_to_fetch_player_data'));
         }
         Redirect::to(URL::build('/panel/mcstatistics/players'));
-        die();
     }
 } else {
     Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'failed_to_fetch_player_data'));
     Redirect::to(URL::build('/panel/mcstatistics/players'));
-    die();
 }
 
-if(!isset($_GET['view'])) {
+if (!isset($_GET['view'])) {
     $template_file = 'mcstatistics/player.tpl';
 } else {
     switch($_GET['view']) {
@@ -66,7 +58,7 @@ if(!isset($_GET['view'])) {
             $sessions_results = $mcstatistics->fetchPlayerSessions($results->_id);
             
             $sessions_list = array();
-            foreach($sessions_results->sessions as $session) {
+            foreach ($sessions_results->sessions as $session) {
                 $playtime = $session->play_time / 1000;
                     
                 $hours = $playtime / 3600;
@@ -83,11 +75,11 @@ if(!isset($_GET['view'])) {
             
             $smarty->assign(array(
                 'SESSIONS_LIST' => $sessions_list,
-                'SESSION_START' => $mcstatistics_language->get('admin', 'session_start'),
-                'SESSION_END' => $mcstatistics_language->get('admin', 'session_end'),
+                'SESSION_START' => $mcstatistics_language->get('general', 'session_start'),
+                'SESSION_END' => $mcstatistics_language->get('general', 'session_end'),
                 'PLAY_TIME' => $mcstatistics_language->get('general', 'play_time'),
-                'VERSION' => $mcstatistics_language->get('admin', 'version'),
-                'IP_ADDRESS' => $mcstatistics_language->get('admin', 'ip_address'),
+                'VERSION' => $mcstatistics_language->get('general', 'version'),
+                'IP_ADDRESS' => $mcstatistics_language->get('general', 'ip_address'),
             ));
         
             $template_file = 'mcstatistics/player_sessions.tpl';
@@ -105,7 +97,7 @@ if(!isset($_GET['view'])) {
             
             $smarty->assign(array(
                 'IP_HISTORY_LIST' => $ip_history_list,
-                'IP_ADDRESS' => $mcstatistics_language->get('admin', 'ip_address'),
+                'IP_ADDRESS' => $mcstatistics_language->get('general', 'ip_address'),
             ));
         
             $template_file = 'mcstatistics/player_ip_history.tpl';
@@ -147,9 +139,9 @@ $smarty->assign(array(
     'AVATAR' => 'https://cravatar.eu/helmavatar/'.$results->uuid.'/128.png',
     'DETAILS' => $language->get('admin', 'details'),
     'DETAILS_LINK' => URL::build('/panel/mcstatistics/player/' . Output::getClean($results->username)),
-    'SESSIONS' => $mcstatistics_language->get('admin', 'sessions'),
+    'SESSIONS' => $mcstatistics_language->get('general', 'sessions'),
     'SESSIONS_LINK' => URL::build('/panel/mcstatistics/player/' . Output::getClean($results->username), 'view=sessions'),
-    'IP_HISTORY' => $mcstatistics_language->get('admin', 'ip_history'),
+    'IP_HISTORY' => $mcstatistics_language->get('general', 'ip_history'),
     'IP_HISTORY_LINK' => URL::build('/panel/mcstatistics/player/' . Output::getClean($results->username), 'view=ip_history'),
     'PLAYER_ID' => Output::getClean($results->_id),
     'USERNAME' => $language->get('user', 'username'),
@@ -159,11 +151,11 @@ $smarty->assign(array(
     'REGISTERED' => $language->get('user', 'registered'),
     'REGISTERED_VALUE' => date('d M Y, H:i', $results->registered / 1000),
     'LAST_SEEN' => $language->get('user', 'last_seen'),
-    'LAST_SEEN_SHORT_VALUE' => $timeago->inWords(date('d M Y, H:i', $results->last_seen / 1000), $language->getTimeLanguage()),
+    'LAST_SEEN_SHORT_VALUE' => $timeago->inWords($results->last_seen / 1000, $language),
     'LAST_SEEN_FULL_VALUE' => date('d M Y, H:i', $results->results / 1000),
-    'LAST_IP' => $mcstatistics_language->get('admin', 'last_ip'),
+    'LAST_IP' => $mcstatistics_language->get('general', 'last_ip'),
     'LAST_IP_VALUE' => Output::getClean($results->last_ip),
-    'LAST_VERSION' => $mcstatistics_language->get('admin', 'last_version'),
+    'LAST_VERSION' => $mcstatistics_language->get('general', 'last_version'),
     'LAST_VERSION_VALUE' => Output::getClean($results->last_version),
     'PLAY_TIME' => $mcstatistics_language->get('general', 'play_time'),
     'PLAY_TIME_VALUE' => Output::getClean(sprintf("%d hours, %d min", $hours, $minutes)),
@@ -175,11 +167,8 @@ $smarty->assign(array(
     'BLOCKS_PLACED_VALUE' => Output::getClean($results->blocks_placed),
     'BLOCKS_DESTROYED' => $mcstatistics_language->get("general", 'blocks_destroyed'),
     'BLOCKS_DESTROYED_VALUE' => Output::getClean($results->blocks_destroyed),
-    'NO_DATA_AVAILABLE' => $mcstatistics_language->get('admin', 'no_data_available'),
+    'NO_DATA_AVAILABLE' => $mcstatistics_language->get('general', 'no_data_available'),
 ));
-
-$page_load = microtime(true) - $start;
-define('PAGE_LOAD_TIME', str_replace('{x}', round($page_load, 3), $language->get('general', 'page_loaded_in')));
 
 $template->onPageLoad();
 
