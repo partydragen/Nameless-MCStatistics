@@ -13,9 +13,9 @@ $cache->setCache('mcstatistics');
 if(!$cache->isCached('user_' . $query->id)){
     $integration = $profile_user->getIntegration('Minecraft');
     if ($integration != null) {
-        $results = $mcstatistics->fetchPlayerData(ProfileUtils::formatUUID($integration->data()->identifier));
+        $results = $mcstatistics->fetchPlayerFields(ProfileUtils::formatUUID($integration->data()->identifier));
     } else {
-        $results = $mcstatistics->fetchPlayerData($query->username);
+        $results = $mcstatistics->fetchPlayerFields($query->username);
     }
 
     $cache->setCache('mcstatistics');
@@ -28,55 +28,33 @@ if ($results != null) {
     if (isset($results->error) && $results->error == true) {
         if ($results->code == 20) {
             $statistics_error = $mcstatistics_language->get('general', 'player_not_found');
+        } else if ($results->code == 21) {
+            $statistics_error = $mcstatistics_language->get('general', 'no_fields_configurated');
         } else {
             $statistics_error = $mcstatistics_language->get('general', 'failed_to_fetch_player_data');
         }
     } else {
         // Statistics fields
-        $fields = [];
+        $servers = [];
+        foreach ($results->servers as $server) {
+            $fields = [];
 
-        $hours = $results->play_time / 1000 / 3600;
-        $minutes = ($results->play_time / 1000 % 3600) / 60;
+            foreach ($server->fields as $field) {
+                $fields[] = [
+                    'title' => $field->name,
+                    'type' => 'text',
+                    'value' => $field->value
+                ];
+            }
 
-        $fields['first_join'] = [
-            'title' => $mcstatistics_language->get('general', 'first_join'),
-            'type' => 'text',
-            'value' => $timeago->inWords($results->registered / 1000, $language),
-            'tooltip' => date(DATE_FORMAT, $results->registered / 1000)
-        ];
-        $fields['last_seen'] = [
-            'title' => $mcstatistics_language->get('general', 'last_seen'),
-            'type' => 'text',
-            'value' => $timeago->inWords($results->last_seen / 1000, $language),
-            'tooltip' => date(DATE_FORMAT, $results->last_seen / 1000)
-        ];
-        $fields['play_time'] = [
-            'title' => $mcstatistics_language->get("general", 'play_time'),
-            'type' => 'text',
-            'value' => Output::getClean(sprintf("%d hours, %d min", $hours, $minutes))
-        ];
-        $fields['kills'] = [
-            'title' => $mcstatistics_language->get("general", 'kills'),
-            'type' => 'text',
-            'value' => $results->kills
-        ];
-        $fields['deaths'] = [
-            'title' => $mcstatistics_language->get("general", 'deaths'),
-            'type' => 'text',
-            'value' => $results->deaths
-        ];
-        $fields['blocks_placed'] = [
-            'title' => $mcstatistics_language->get("general", 'blocks_placed'),
-            'type' => 'text',
-            'value' => $results->blocks_placed
-        ];
-        $fields['blocks_destroyed'] = [
-            'title' => $mcstatistics_language->get("general", 'blocks_destroyed'),
-            'type' => 'text',
-            'value' => $results->blocks_destroyed
-        ];
+            $servers[] = [
+                'name' => $server->name,
+                'fields' => $fields,
+            ];
+        }
 
         $smarty->assign('MCSTATISTICS_FIELDS', $fields);
+        $smarty->assign('MCSTATISTICS_SERVERS', $servers);
     }
 } else {
     $statistics_error = $mcstatistics_language->get('general', 'failed_to_fetch_player_data');

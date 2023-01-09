@@ -9,16 +9,21 @@
     </div>
   </div>
 {else}
-<div class="ui grid">
-  {foreach from=$MCSTATISTICS_FIELDS key=key item=field}
+
+{foreach from=$MCSTATISTICS_SERVERS item=server}
+  <h3>{$server.name}</h3>
+  <hr>
+  <div class="ui grid">
+  {foreach from=$server.fields item=field}
     <div class="four wide column">
         <strong>{$field.title}</strong></br>
         <p>{$field.value}</p>
     </div>
   {/foreach}
-</div>
+  </div>
+  </br>
+{/foreach}
 
-</br>
 
 <center>Statistics provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></center>
 {/if}

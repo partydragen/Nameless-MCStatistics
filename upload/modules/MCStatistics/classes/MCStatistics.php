@@ -38,6 +38,25 @@ class MCStatistics {
     }
     
     // Get player data
+    public function fetchPlayerFields($value) {
+        if($this->_secret_key) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . $value . '/fields');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            
+            $ch_result = curl_exec($ch);
+            $result = json_decode($ch_result);
+            curl_close($ch);
+            
+            return $result;
+        }
+        
+        return null;
+    }
+    
+    // Get player data
     public function fetchPlayerSessions($value) {
         if($this->_secret_key) {
             $ch = curl_init();
