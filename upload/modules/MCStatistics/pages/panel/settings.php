@@ -26,7 +26,7 @@ if (Input::exists()) {
     if (Token::check(Input::get('token'))) {
         $validation = Validate::check($_POST, [
             'secret_key' => [
-				'min' => 40,
+				'min' => 32,
 				'max' => 64
 			]
         ]);
