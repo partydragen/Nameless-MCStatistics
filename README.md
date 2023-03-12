@@ -2,7 +2,7 @@
 Display player statistics on your website by integrating into [MCStatistics](https://mcstatistics.org/)
 
 ## Requirements
-- NamelessMC version 2 pre-release 10+
+- NamelessMC version 2.0.x
 - Have a [MCStatistics](https://mcstatistics.org/) Account with a server setuped
 
 ## Installation:
