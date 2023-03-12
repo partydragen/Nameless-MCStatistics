@@ -12,8 +12,13 @@
 // Initialise Suggestions language
 $mcstatistics_language = new Language(ROOT_PATH . '/modules/MCStatistics/language', LANGUAGE);
 
-// Initialise module
-require_once(ROOT_PATH . '/modules/MCStatistics/classes/MCStatistics.php');
+// Load classes
+spl_autoload_register(function ($class) {
+    $path = join(DIRECTORY_SEPARATOR, [ROOT_PATH, 'modules', 'MCStatistics', 'classes', $class . '.php']);
+    if (file_exists($path)) {
+        require_once($path);
+    }
+});
 $mcstatistics = new MCStatistics();
 
 require_once(ROOT_PATH . '/modules/MCStatistics/module.php');

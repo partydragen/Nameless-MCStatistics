@@ -28,7 +28,19 @@ class MCStatistics_Module extends Module {
         $pages->add('MCStatistics', '/panel/mcstatistics/settings', 'pages/panel/settings.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/players', 'pages/panel/players.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/player', 'pages/panel/player.php');
-        
+
+        if (Util::isModuleEnabled('Store')) {
+            require_once(ROOT_PATH . '/modules/MCStatistics/hooks/CheckoutPlayerHook.php');
+            EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerAge');
+            EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerPlaytime');
+        }
+
+        if (Util::isModuleEnabled('Forms')) {
+            require_once(ROOT_PATH . '/modules/MCStatistics/hooks/FormPlayerHook.php');
+            EventHandler::registerListener('renderForm', 'FormPlayerHook::minPlayerAge');
+            EventHandler::registerListener('renderForm', 'FormPlayerHook::minPlayerPlaytime');
+        }
+
         // Check if module version changed
         $cache->setCache('mcstatistics_module_cache');
         if(!$cache->isCached('module_version')){
