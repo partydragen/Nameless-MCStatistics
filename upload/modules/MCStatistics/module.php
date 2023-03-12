@@ -16,25 +16,27 @@ class MCStatistics_Module extends Module {
     public function __construct($language, $mcstatistics_language, $pages, $queries, $navigation, $cache){
         $this->_language = $language;
         $this->_mcstatistics_language = $mcstatistics_language;
-        
+
         $name = 'MCStatistics';
         $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a>';
-        $module_version = '1.2.1';
-        $nameless_version = '2.0.2';
-        
+        $module_version = '1.2.2';
+        $nameless_version = '2.0.3';
+
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
-        
+
         // Define URLs which belong to this module
         $pages->add('MCStatistics', '/panel/mcstatistics/settings', 'pages/panel/settings.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/players', 'pages/panel/players.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/player', 'pages/panel/player.php');
 
+        // Store Integration
         if (Util::isModuleEnabled('Store')) {
             require_once(ROOT_PATH . '/modules/MCStatistics/hooks/CheckoutPlayerHook.php');
             EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerAge');
             EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerPlaytime');
         }
 
+        // Forms Integration
         if (Util::isModuleEnabled('Forms')) {
             require_once(ROOT_PATH . '/modules/MCStatistics/hooks/FormPlayerHook.php');
             EventHandler::registerListener('renderForm', 'FormPlayerHook::minPlayerAge');
@@ -56,7 +58,7 @@ class MCStatistics_Module extends Module {
             }
         }
     }
-    
+
     public function onInstall() {
         // Initialise
         $this->initialise();
