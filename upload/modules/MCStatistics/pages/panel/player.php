@@ -37,8 +37,8 @@ Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp
 
 $results = $mcstatistics->fetchPlayerData($player);
 if ($results != null) {
-    if (isset($results->error) && $results->error == true) {
-        if($results->code == 20) {
+    if (isset($results->error)) {
+        if ($results->error == 'player_not_found' || $results->code == 'player_not_found') {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'player_not_found'));
         } else {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'failed_to_fetch_player_data'));

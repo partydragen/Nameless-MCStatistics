@@ -19,8 +19,8 @@ class MCStatistics_Module extends Module {
 
         $name = 'MCStatistics';
         $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a>';
-        $module_version = '1.2.2';
-        $nameless_version = '2.0.3';
+        $module_version = '1.2.3';
+        $nameless_version = '2.1.0';
 
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
 
@@ -32,8 +32,8 @@ class MCStatistics_Module extends Module {
         // Store Integration
         if (Util::isModuleEnabled('Store')) {
             require_once(ROOT_PATH . '/modules/MCStatistics/hooks/CheckoutPlayerHook.php');
-            EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerAge');
-            EventHandler::registerListener('storeCheckoutAddProduct', 'CheckoutPlayerHook::minPlayerPlaytime');
+            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutAddProductEvent::class, 'minPlayerAge']);
+            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutAddProductEvent::class, 'minPlayerPlaytime']);
         }
 
         // Forms Integration
