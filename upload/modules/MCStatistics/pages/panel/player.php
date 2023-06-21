@@ -29,16 +29,13 @@ if (!strlen($player)) {
     Redirect::to(URL::build('/panel/mcstatistics/players'));
 }
 
-$player = explode('-', $player);
-$player = $player[0];
-
 // Load modules + template
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 $results = $mcstatistics->fetchPlayerData($player);
 if ($results != null) {
     if (isset($results->error)) {
-        if ($results->error == 'player_not_found' || $results->code == 'player_not_found') {
+        if ($results->code == 'player_not_found') {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'player_not_found'));
         } else {
             Session::flash('mcstatistics_error', $mcstatistics_language->get('general', 'failed_to_fetch_player_data'));

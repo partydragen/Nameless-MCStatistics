@@ -38,7 +38,7 @@ class MCStatistics {
     public function fetchPlayerData($value) {
         if($this->_secret_key) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . $value);
+            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . urlencode($value));
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -57,7 +57,7 @@ class MCStatistics {
     public function fetchPlayerFields($value) {
         if($this->_secret_key) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . $value . '/fields');
+            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . urlencode($value) . '/fields');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -76,7 +76,7 @@ class MCStatistics {
     public function fetchPlayerSessions($value) {
         if($this->_secret_key) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . $value . '/sessions');
+            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . urlencode($value) . '/sessions');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -95,7 +95,7 @@ class MCStatistics {
     public function fetchPlayerIPHistory($value) {
         if($this->_secret_key) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . $value . '/ip_history');
+            curl_setopt($ch, CURLOPT_URL, 'https://api.mcstatistics.org/v1/player/' . urlencode($value) . '/ip_history');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-MCStatistics-Secret: ' . $this->_secret_key));
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -114,9 +114,9 @@ class MCStatistics {
      *  Check for Module updates
      *  Returns JSON object with information about any updates
      */
-    public static function updateCheck($current_version = null) {
-        $current_version = Util::getSetting('nameless_version');
-        $uid = Util::getSetting('unique_id');
+    public static function updateCheck() {
+        $current_version = Settings::get('nameless_version');
+        $uid = Settings::get('unique_id');
 
 		$enabled_modules = Module::getModules();
 		foreach($enabled_modules as $enabled_item){

@@ -26,9 +26,9 @@ if(!$cache->isCached('user_' . $query->id)){
 
 if ($results != null) {
     if (isset($results->error)) {
-        if ($results->error == 'player_not_found' || $results->code == 'player_not_found') {
+        if ($results->code == 'player_not_found') {
             $statistics_error = $mcstatistics_language->get('general', 'player_not_found');
-        } else if ($results->error == 'no_fields_configurated' || $results->code == 'no_fields_configurated') {
+        } else if ($results->code == 'no_fields_configurated') {
             $statistics_error = $mcstatistics_language->get('general', 'no_fields_configurated');
         } else {
             $statistics_error = $mcstatistics_language->get('general', 'failed_to_fetch_player_data');
