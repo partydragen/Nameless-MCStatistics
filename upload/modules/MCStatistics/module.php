@@ -32,8 +32,8 @@ class MCStatistics_Module extends Module {
         // Store Integration
         if (Util::isModuleEnabled('Store')) {
             require_once(ROOT_PATH . '/modules/MCStatistics/hooks/CheckoutPlayerHook.php');
-            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutAddProductEvent::class, 'minPlayerAge']);
-            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutAddProductEvent::class, 'minPlayerPlaytime']);
+            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutPlayerHook::class, 'minPlayerAge']);
+            EventHandler::registerListener(CheckoutAddProductEvent::class, [CheckoutPlayerHook::class, 'minPlayerPlaytime']);
         }
 
         // Forms Integration
