@@ -9,16 +9,10 @@
  *  MCStatistics module initialisation file
  */
 
+require_once(ROOT_PATH . '/modules/Store/autoload.php');
+
 // Initialise Suggestions language
 $mcstatistics_language = new Language(ROOT_PATH . '/modules/MCStatistics/language', LANGUAGE);
-
-// Load classes
-spl_autoload_register(function ($class) {
-    $path = join(DIRECTORY_SEPARATOR, [ROOT_PATH, 'modules', 'MCStatistics', 'classes', $class . '.php']);
-    if (file_exists($path)) {
-        require_once($path);
-    }
-});
 $mcstatistics = new MCStatistics();
 
 require_once(ROOT_PATH . '/modules/MCStatistics/module.php');
