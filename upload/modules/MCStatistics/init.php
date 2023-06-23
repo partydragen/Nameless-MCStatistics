@@ -9,7 +9,7 @@
  *  MCStatistics module initialisation file
  */
 
-require_once(ROOT_PATH . '/modules/Store/autoload.php');
+require_once(ROOT_PATH . '/modules/MCStatistics/autoload.php');
 
 // Initialise Suggestions language
 $mcstatistics_language = new Language(ROOT_PATH . '/modules/MCStatistics/language', LANGUAGE);
