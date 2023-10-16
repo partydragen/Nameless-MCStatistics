@@ -37,7 +37,7 @@
     "general/current_version_x": "Current module version: {{version}}",
     "general/view_resource": "View Resource",
     "general/age_requirement_not_meet": "Your ingame account is not old enough",
-    "general/player_age_not_found": "Player not found, Could not determine your player age requirement!",
+    "general/player_age_not_found": "Player not found, could not determine your player age requirement!",
     "general/playtime_requirement_not_meet": "You don't have enought playtime ingame within a certain time!",
-    "general/player_playtime_not_found": "Player not found, Could not determine your player playtime requirement!"
+    "general/player_playtime_not_found": "Player not found, could not determine your player playtime requirement!"
 }
