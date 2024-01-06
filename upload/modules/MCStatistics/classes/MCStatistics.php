@@ -109,6 +109,19 @@ class MCStatistics {
         
         return null;
     }
+
+    public function getPlayers() {
+        $header = ['headers' => [
+            'X-MCStatistics-Secret' => Util::getSetting('secret_key', '', 'MCStatistics')
+        ]];
+
+        $request = HttpClient::get('https://api.mcstatistics.org/v1/players', $header);
+        if (!$request->hasError()) {
+            return $request->json();
+        }
+
+        return [];
+    }
     
     /*
      *  Check for Module updates

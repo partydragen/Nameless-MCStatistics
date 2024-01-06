@@ -106,7 +106,7 @@
                                 <p>{$NO_DATA_AVAILABLE}</p>
                                 {/if}
                                 
-                                <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a></br>
+                                <center><p>MCStatistics Module by <a href="https://partydragen.com/" target="_blank">Partydragen</a> and my <a href="https://partydragen.com/supporters/" target="_blank">Sponsors</a></br>
                                 Data provided by <a href="https://mcstatistics.org/" target="_blank">MCStatistics</a></p></center>
                             </div>
                         </div>

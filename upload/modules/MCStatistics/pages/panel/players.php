@@ -61,7 +61,7 @@ $smarty->assign([
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit'),
     'SEARCH_FOR_PLAYER' => $mcstatistics_language->get('general', 'search_for_player'),
-    'PLAYERS' => $mcstatistics_language->get('general', 'players'),
+    'PLAYERS' => $mcstatistics_language->get('general', 'players')
 ]);
 
 $template->onPageLoad();

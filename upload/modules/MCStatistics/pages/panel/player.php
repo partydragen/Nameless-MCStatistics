@@ -133,7 +133,7 @@ $smarty->assign(array(
     'MCSTATISTICS' => $mcstatistics_language->get('general', 'mcstatistics'),
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit'),
-    'AVATAR' => 'https://cravatar.eu/helmavatar/'.$results->uuid.'/128.png',
+    'AVATAR' => 'https://crafthead.net/avatar/'.$results->uuid.'/128',
     'DETAILS' => $language->get('admin', 'details'),
     'DETAILS_LINK' => URL::build('/panel/mcstatistics/player/' . Output::getClean($results->username)),
     'SESSIONS' => $mcstatistics_language->get('general', 'sessions'),

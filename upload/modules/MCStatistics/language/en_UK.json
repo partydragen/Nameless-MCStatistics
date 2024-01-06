@@ -9,8 +9,10 @@
     "general/player_not_found":"Player not found on MCStatistics",
     "general/failed_to_fetch_player_data":"Failed to fetch player data from <a href=\"https://mcstatistics.org/dashboard\" target=\"_blank\">MCStatistics</a>!",
     "general/no_fields_configurated": "No fields have been configurated, You can configurate it from <a href=\"https://mcstatistics.org/dashboard\" target=\"_blank\">MCStatistics</a> -> Dashboard -> Fields",
+    "general/registered":"Registered",
     "general/first_join":"First Join",
     "general/last_seen":"Last Seen",
+    "general/last_server":"Last Server",
     "general/play_time":"Play Time",
     "general/kills":"Kills",
     "general/deaths":"Deaths",
@@ -39,5 +41,7 @@
     "general/age_requirement_not_meet": "Your ingame account is not old enough",
     "general/player_age_not_found": "Player not found, Could not determine your player age requirement!",
     "general/playtime_requirement_not_meet": "You don't have enought playtime ingame within a certain time!",
-    "general/player_playtime_not_found": "Player not found, Could not determine your player playtime requirement!"
+    "general/player_playtime_not_found": "Player not found, Could not determine your player playtime requirement!",
+    "general/online_on_server": "Online on {{server}}",
+    "general/offline": "Offline"
 }

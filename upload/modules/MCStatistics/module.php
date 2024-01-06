@@ -18,13 +18,16 @@ class MCStatistics_Module extends Module {
         $this->_mcstatistics_language = $mcstatistics_language;
 
         $name = 'MCStatistics';
-        $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a>';
+        $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a> and my <a href="https://partydragen.com/supporters/" target="_blank">Sponsors</a>';
         $module_version = '1.2.4';
         $nameless_version = '2.1.1';
 
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
 
         // Define URLs which belong to this module
+        $pages->add('MCStatistics', '/players', 'pages/players.php', 'players', true);
+        $pages->add('MCStatistics', '/player', 'pages/player.php');
+
         $pages->add('MCStatistics', '/panel/mcstatistics/settings', 'pages/panel/settings.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/players', 'pages/panel/players.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/player', 'pages/panel/player.php');
@@ -78,8 +81,45 @@ class MCStatistics_Module extends Module {
     }
 
     public function onPageLoad($user, $pages, $cache, $smarty, $navs, $widgets, $template){
-        
-        if(defined('BACK_END')){
+        // Add link to navbar
+        $cache->setCache('nav_location');
+        if (!$cache->isCached('players_location')) {
+            $link_location = 1;
+            $cache->store('players_location', 1);
+        } else {
+            $link_location = $cache->retrieve('players_location');
+        }
+
+        $cache->setCache('navbar_order');
+        if (!$cache->isCached('players_order')) {
+            $order = 31;
+            $cache->store('players_order', 31);
+        } else {
+            $order = $cache->retrieve('players_order');
+        }
+
+        $cache->setCache('navbar_icons');
+        if (!$cache->isCached('players_icon'))
+            $icon = '';
+        else
+            $icon = $cache->retrieve('players_icon');
+
+        switch ($link_location) {
+            case 1:
+                // Navbar
+                $navs[0]->add('players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/players'), 'top', null, $order, $icon);
+                break;
+            case 2:
+                // "More" dropdown
+                $navs[0]->addItemToDropdown('more_dropdown', 'players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/players'), 'top', null, $icon, $order);
+                break;
+            case 3:
+                // Footer
+                $navs[0]->add('players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/players'), 'footer', null, $order, $icon);
+                break;
+        }
+
+        if (defined('BACK_END')){
             // Navigation
             $cache->setCache('panel_sidebar');
             
@@ -124,20 +164,20 @@ class MCStatistics_Module extends Module {
                     
                     $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/panel/mcstatistics/players'), 'top', $order, $icon);
                 }
-                
+
                 if (!$cache->isCached('mcstatistics_website_icon')){
                     $icon = '<i class="nav-icon fas fa-link"></i>';
                     $cache->store('mcstatistics_website_icon', $icon);
                 } else
                     $icon = $cache->retrieve('mcstatistics_website_icon');
-                
+
                 $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('general', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
             }
-            
+
             if ($user->hasPermission('mcstatistics.players'))
                 Core_Module::addUserAction($this->_mcstatistics_language->get('general', 'mcstatistics'), URL::build('/panel/mcstatistics/player/{username}'));
         }
-        
+
         // Check for module updates
         if(isset($_GET['route']) && $user->isLoggedIn() && $user->hasPermission('admincp.update')){
             // Page belong to this module?
