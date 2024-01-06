@@ -152,7 +152,7 @@ class MCStatistics_Module extends Module {
                     } else
                         $icon = $cache->retrieve('mcstatistics_settings_icon');
                     
-                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_settings', $this->_mcstatistics_language->get('general', 'settings'), URL::build('/panel/mcstatistics/settings'), 'top', $order, $icon);
+                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_settings', $this->_mcstatistics_language->get('general', 'settings'), URL::build('/panel/mcstatistics/settings'), 'top', null, $icon, $order);
                 }
                 
                 if ($user->hasPermission('mcstatistics.players')) {
@@ -162,7 +162,7 @@ class MCStatistics_Module extends Module {
                     } else
                         $icon = $cache->retrieve('mcstatistics_players_icon');
                     
-                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/panel/mcstatistics/players'), 'top', $order, $icon);
+                    $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_players', $this->_mcstatistics_language->get('general', 'players'), URL::build('/panel/mcstatistics/players'), 'top', null, $icon, $order);
                 }
 
                 if (!$cache->isCached('mcstatistics_website_icon')){
@@ -171,7 +171,7 @@ class MCStatistics_Module extends Module {
                 } else
                     $icon = $cache->retrieve('mcstatistics_website_icon');
 
-                $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('general', 'view_website'), 'https://mcstatistics.org/', 'top', $order, $icon);
+                $navs[2]->addItemToDropdown('mcstatistics', 'mcstatistics_website', $this->_mcstatistics_language->get('general', 'view_website'), 'https://mcstatistics.org/', 'top', '_blank', $icon, $order);
             }
 
             if ($user->hasPermission('mcstatistics.players'))
