@@ -48,8 +48,17 @@
                                 <input id="inputSecretKey" name="secret_key" class="form-control" placeholder="{$SECRET_KEY}" value="{$SECRET_KEY_VALUE}">
                             </div>
                             <div class="form-group">
-                                <label for="InputProfileStats">{$SHOW_STATS_ON_PROFILE}</label>
-                                <input id="inputProfileStats" name="display_profile" type="checkbox" class="js-switch"{if $SHOW_STATS_ON_PROFILE_VALUE eq 1} checked{/if} />
+                                <label for="link_location">{$LINK_LOCATION}</label>
+                                <select class="form-control" id="link_location" name="link_location">
+                                    <option value="1"{if $LINK_LOCATION_VALUE eq 1} selected{/if}>{$LINK_NAVBAR}</option>
+                                    <option value="2"{if $LINK_LOCATION_VALUE eq 2} selected{/if}>{$LINK_MORE}</option>
+                                    <option value="3"{if $LINK_LOCATION_VALUE eq 3} selected{/if}>{$LINK_FOOTER}</option>
+                                    <option value="4"{if $LINK_LOCATION_VALUE eq 4} selected{/if}>{$LINK_NONE}</option>
+                                </select>
+                            </div>
+                            <div class="form-group custom-control custom-switch">
+                                <input id="inputProfileStats" name="display_profile" type="checkbox" class="custom-control-input"{if $SHOW_STATS_ON_PROFILE_VALUE eq 1} checked{/if} />
+                                <label class="custom-control-label" for="InputProfileStats">{$SHOW_STATS_ON_PROFILE}</label>
                             </div>
                             <div class="form-group">
                                 <input type="hidden" name="token" value="{$TOKEN}">

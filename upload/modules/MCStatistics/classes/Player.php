@@ -12,7 +12,7 @@ class Player {
 
     public function __construct(string $player) {
         $header = ['headers' => [
-            'X-MCStatistics-Secret' => Util::getSetting('secret_key', '', 'MCStatistics')
+            'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
         ]];
 
         $request = HttpClient::get('https://api.mcstatistics.org/v1/player/' . urlencode($player), $header);

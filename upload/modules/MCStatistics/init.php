@@ -20,7 +20,7 @@ $module = new MCStatistics_Module($language, $mcstatistics_language, $pages, $qu
 
 // Profile page tab
 try {
-    if (Util::getSetting('display_profile', '1', 'MCStatistics')) {
+    if (Settings::get('display_profile', '1', 'MCStatistics')) {
         if (!isset($profile_tabs)) $profile_tabs = array();
         $profile_tabs['mcstatistics'] = array('title' => $mcstatistics_language->get('general', 'ingame'), 'smarty_template' => 'mcstatistics/profile_tab.tpl', 'require' => ROOT_PATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'MCStatistics' . DIRECTORY_SEPARATOR . 'profile_tab.php');
     }

@@ -31,15 +31,35 @@ if (Input::exists()) {
 			]
         ]);
 
-        if ($validation->passed()){
+        if ($validation->passed()) {
+            // Get link location
+            if (isset($_POST['link_location'])) {
+                switch($_POST['link_location']) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        $location = $_POST['link_location'];
+                        break;
+                    default:
+                        $location = 1;
+                }
+            } else {
+                $location = 1;
+            }
+
+            // Update Link location cache
+            $cache->setCache('nav_location');
+            $cache->store('players_location', $location);
+
             // Update secret key
-            Util::setSetting('secret_key', Input::get('secret_key'), 'MCStatistics');
+            Settings::set('secret_key', Input::get('secret_key'), 'MCStatistics');
 
             // Update show stats on profile page value
             if(isset($_POST['display_profile']) && $_POST['display_profile'] == 'on') $display_profile = 1;
             else $display_profile = 0;
 
-            Util::setSetting('display_profile', $display_profile, 'MCStatistics');
+            Settings::set('display_profile', $display_profile, 'MCStatistics');
 
             Session::flash('mcstatistics_success', $mcstatistics_language->get('general', 'settings_updated_successfully'));
             Redirect::to(URL::build('/panel/mcstatistics/settings'));
@@ -51,6 +71,10 @@ if (Input::exists()) {
         $errors[] = $language->get('general', 'invalid_token');
     }
 }
+
+// Retrieve link_location from cache
+$cache->setCache('nav_location');
+$link_location = $cache->retrieve('players_location');
 
 // Load modules + template
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
@@ -81,9 +105,15 @@ $smarty->assign([
     'INFO' => $language->get('general', 'info'),
     'SECRET_KEY' => $mcstatistics_language->get('general', 'secret_key'),
     'SECRET_KEY_INFO' => $mcstatistics_language->get('general', 'secret_key_info'),
-    'SECRET_KEY_VALUE' => Util::getSetting('secret_key', '', 'MCStatistics'),
+    'SECRET_KEY_VALUE' => Settings::get('secret_key', '', 'MCStatistics'),
+    'LINK_LOCATION' => $mcstatistics_language->get('general', 'link_location'),
+    'LINK_LOCATION_VALUE' => $link_location,
+    'LINK_NAVBAR' => $language->get('admin', 'page_link_navbar'),
+    'LINK_MORE' => $language->get('admin', 'page_link_more'),
+    'LINK_FOOTER' => $language->get('admin', 'page_link_footer'),
+    'LINK_NONE' => $language->get('admin', 'page_link_none'),
     'SHOW_STATS_ON_PROFILE' => $mcstatistics_language->get('general', 'show_stats_on_profile'),
-    'SHOW_STATS_ON_PROFILE_VALUE' => Util::getSetting('display_profile', '1', 'MCStatistics'),
+    'SHOW_STATS_ON_PROFILE_VALUE' => Settings::get('display_profile', '1', 'MCStatistics'),
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
 ]);

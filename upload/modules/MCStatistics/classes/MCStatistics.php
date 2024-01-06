@@ -17,7 +17,7 @@ class MCStatistics {
     private static Language $_mcstatistics_language;
 
     public function __construct() {
-        $secret_key = Util::getSetting('secret_key', '', 'MCStatistics');
+        $secret_key = Settings::get('secret_key', '', 'MCStatistics');
         if(!empty($secret_key)) {
             $this->_secret_key = $secret_key;
         }
@@ -112,7 +112,7 @@ class MCStatistics {
 
     public function getPlayers() {
         $header = ['headers' => [
-            'X-MCStatistics-Secret' => Util::getSetting('secret_key', '', 'MCStatistics')
+            'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
         ]];
 
         $request = HttpClient::get('https://api.mcstatistics.org/v1/players', $header);
