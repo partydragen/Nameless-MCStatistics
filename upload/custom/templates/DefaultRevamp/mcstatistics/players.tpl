@@ -34,6 +34,31 @@
 
         <div class="ui {if count($WIDGETS_LEFT) && count($WIDGETS_RIGHT) }four wide tablet eight wide computer{elseif count($WIDGETS_LEFT) || count($WIDGETS_RIGHT)}ten wide tablet twelve wide computer{else}sixteen wide{/if} column">
 
+            {if isset($SUCCESS)}
+                <div class="ui success icon message">
+                    <i class="check icon"></i>
+                    <div class="content">
+                        <div class="header">{$SUCCESS_TITLE}</div>
+                        {$SUCCESS}
+                    </div>
+                </div>
+            {/if}
+
+            {if isset($ERRORS)}
+                <div class="ui error icon message">
+                    <i class="x icon"></i>
+                    <div class="content">
+                        <div class="header">{$ERRORS_TITLE}</div>
+                        <ul class="list">
+                            {foreach from=$ERRORS item=error}
+                                <li>{$error}</li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
+            {/if}
+
+            {if isset($PLAYERS_LIST)}
             <div class="ui segment">
                 <table id="players" class="ui table dataTables-users" style="width:100%">
                     <thead>
@@ -58,6 +83,7 @@
 
                 {$PAGINATION}
             </div>
+            {/if}
 
         </div>
 

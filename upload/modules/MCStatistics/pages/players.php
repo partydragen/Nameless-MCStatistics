@@ -26,49 +26,53 @@ if (isset($_GET['p'])) {
     $p = 1;
 }
 
-$cache->setCache('mcstatistics_players');
-if (!$cache->isCached('players')) {
-    $mcstatistics = new MCStatistics();
+$mcstatistics = new MCStatistics($cache);
+if ($mcstatistics->isSetup()) {
     $json = $mcstatistics->getPlayers();
 
-    $cache->store('players', $json, 120);
+    if (isset($json->players, $json->players_count)) {
+        // Pagination
+        $paginator = new Paginator(
+            $template_pagination ?? null,
+            $template_pagination_left ?? null,
+            $template_pagination_right ?? null
+        );
+        $results = $paginator->getLimited($json->players, 15, $p, $json->players_count);
+        $pagination = $paginator->generate(7, URL::build('/players/'));
+
+        $smarty->assign('PAGINATION', $pagination);
+
+        $players_list = [];
+        foreach ($results->data as $player) {
+            $player_user = new User($player->username, 'username');
+
+            $players_list[] = [
+                'username' => Output::getClean($player->username),
+                'user_id' => $player_user->exists() ? $player_user->data()->id : null,
+                'user_style' => $player_user->exists() ? $player_user->getGroupStyle() : null,
+                'registered' => date(DATE_FORMAT, $player->firstjoin_date / 1000),
+                'last_seen' => date(DATE_FORMAT, $player->lastjoin_date / 1000),
+                'avatar' => AvatarSource::getAvatarFromUUID($player->uuid),
+                'link' => URL::build('/player/' . $player->username)
+            ];
+        }
+
+        $smarty->assign([
+            'PLAYERS_LIST' => $players_list,
+            'PLAYER' => $mcstatistics_language->get('general', 'player'),
+            'REGISTERED' => $mcstatistics_language->get('general', 'registered'),
+            'LAST_SEEN' => $mcstatistics_language->get('general', 'last_seen'),
+            'VIEW' => $language->get('general', 'view'),
+        ]);
+    } else {
+        $errors[] = $mcstatistics_language->get('general', 'failed_to_fetch_player_data');
+    }
 } else {
-    $json = $cache->retrieve('players');
-}
-
-// Pagination
-$paginator = new Paginator(
-    $template_pagination ?? null,
-    $template_pagination_left ?? null,
-    $template_pagination_right ?? null
-);
-$results = $paginator->getLimited($json->players, 15, $p, $json->players_count);
-$pagination = $paginator->generate(7, URL::build('/players/'));
-
-$smarty->assign('PAGINATION', $pagination);
-
-$players_list = [];
-foreach ($results->data as $player) {
-    $player_user = new User($player->username, 'username');
-
-    $players_list[] = [
-        'username' => Output::getClean($player->username),
-        'user_id' => $player_user->exists() ? $player_user->data()->id : null,
-        'user_style' => $player_user->exists() ? $player_user->getGroupStyle() : null,
-        'registered' => date(DATE_FORMAT, $player->firstjoin_date / 1000),
-        'last_seen' => date(DATE_FORMAT, $player->lastjoin_date / 1000),
-        'avatar' => AvatarSource::getAvatarFromUUID($player->uuid),
-        'link' => URL::build('/player/' . $player->username)
-    ];
+    $errors[] = $mcstatistics_language->get('general', 'not_setup');
 }
 
 $smarty->assign([
     'PLAYERS' => $mcstatistics_language->get('general', 'players'),
-    'PLAYERS_LIST' => $players_list,
-    'PLAYER' => $mcstatistics_language->get('general', 'player'),
-    'REGISTERED' => $mcstatistics_language->get('general', 'registered'),
-    'LAST_SEEN' => $mcstatistics_language->get('general', 'last_seen'),
-    'VIEW' => $language->get('general', 'view'),
     'TOKEN' => Token::get(),
     'SEARCH_URL' => URL::build('/players'),
     'SEARCH' => $language->get('general', 'search'),
@@ -76,6 +80,18 @@ $smarty->assign([
 
 // Load modules + template
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
+
+if (isset($success))
+    $smarty->assign([
+        'SUCCESS' => $success,
+        'SUCCESS_TITLE' => $language->get('general', 'success')
+    ]);
+
+if (isset($errors) && count($errors))
+    $smarty->assign([
+        'ERRORS' => $errors,
+        'ERRORS_TITLE' => $language->get('general', 'error')
+    ]);
 
 $template->onPageLoad();
 

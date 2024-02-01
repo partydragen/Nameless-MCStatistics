@@ -7,6 +7,7 @@
     "general/search_for_player":"Search for player",
     "general/ingame_statistics":"Ingame Statistics",
     "general/player_not_found":"Player not found on MCStatistics",
+    "general/not_setup": "MCStatistics module has not been configurated, This can be done in StaffCP -> MCStatistics -> Settings",
     "general/failed_to_fetch_player_data":"Failed to fetch player data from <a href=\"https://mcstatistics.org/dashboard\" target=\"_blank\">MCStatistics</a>!",
     "general/no_fields_configurated": "No fields have been configurated, You can configurate it from <a href=\"https://mcstatistics.org/dashboard\" target=\"_blank\">MCStatistics</a> -> Dashboard -> Fields",
     "general/registered":"Registered",

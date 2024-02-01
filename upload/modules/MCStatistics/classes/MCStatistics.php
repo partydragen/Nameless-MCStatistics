@@ -15,12 +15,19 @@ class MCStatistics {
      * @var Language Instance of Language class for translations
      */
     private static Language $_mcstatistics_language;
+    private Cache $_cache;
 
-    public function __construct() {
+    public function __construct(Cache $cache) {
+        $this->_cache = $cache;
+
         $secret_key = Settings::get('secret_key', '', 'MCStatistics');
         if(!empty($secret_key)) {
             $this->_secret_key = $secret_key;
         }
+    }
+
+    public function isSetup(): bool {
+        return !empty($this->_secret_key);
     }
 
     /**
@@ -111,13 +118,21 @@ class MCStatistics {
     }
 
     public function getPlayers() {
-        $header = ['headers' => [
-            'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
-        ]];
+        $this->_cache->setCache('mcstatistics_players');
+        if (!$this->_cache->isCached('players')) {
+            $header = ['headers' => [
+                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+            ]];
 
-        $request = HttpClient::get('https://api.mcstatistics.org/v1/players', $header);
-        if (!$request->hasError()) {
-            return $request->json();
+            $request = HttpClient::get('https://api.mcstatistics.org/v1/players', $header);
+            if (!$request->hasError()) {
+                $json = $request->json();
+
+                $this->_cache->store('players', $json, 120);
+                return $json;
+            }
+        } else {
+            return $this->_cache->retrieve('players');
         }
 
         return [];
