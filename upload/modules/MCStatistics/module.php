@@ -121,6 +121,44 @@ class MCStatistics_Module extends Module {
                 break;
         }
 
+        // Add link to navbar
+        $cache->setCache('nav_location');
+        if (!$cache->isCached('leaderboard_location')) {
+            $link_location = 1;
+            $cache->store('leaderboard_location', 1);
+        } else {
+            $link_location = $cache->retrieve('leaderboard_location');
+        }
+
+        $cache->setCache('navbar_order');
+        if (!$cache->isCached('leaderboard_order')) {
+            $order = 31;
+            $cache->store('leaderboard_order', 31);
+        } else {
+            $order = $cache->retrieve('leaderboard_order');
+        }
+
+        $cache->setCache('navbar_icons');
+        if (!$cache->isCached('leaderboard_icon'))
+            $icon = '';
+        else
+            $icon = $cache->retrieve('leaderboard_icon');
+
+        switch ($link_location) {
+            case 1:
+                // Navbar
+                $navs[0]->add('leaderboard', $this->_mcstatistics_language->get('general', 'leaderboards'), URL::build('/leaderboard'), 'top', null, $order, $icon);
+                break;
+            case 2:
+                // "More" dropdown
+                $navs[0]->addItemToDropdown('more_dropdown', 'leaderboard', $this->_mcstatistics_language->get('general', 'leaderboards'), URL::build('/leaderboard'), 'top', null, $icon, $order);
+                break;
+            case 3:
+                // Footer
+                $navs[0]->add('leaderboard', $this->_mcstatistics_language->get('general', 'leaderboards'), URL::build('/leaderboard'), 'footer', null, $order, $icon);
+                break;
+        }
+
         if (defined('BACK_END')){
             // Navigation
             $cache->setCache('panel_sidebar');

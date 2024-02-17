@@ -52,6 +52,26 @@ if (Input::exists()) {
             $cache->setCache('nav_location');
             $cache->store('players_location', $location);
 
+            // Get link location
+            if (isset($_POST['leaderboard_link_location'])) {
+                switch($_POST['leaderboard_link_location']) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        $location = $_POST['leaderboard_link_location'];
+                        break;
+                    default:
+                        $location = 1;
+                }
+            } else {
+                $location = 1;
+            }
+
+            // Update leaderboard Link location cache
+            $cache->setCache('nav_location');
+            $cache->store('leaderboard_location', $location);
+
             // Update secret key
             Settings::set('secret_key', Input::get('secret_key'), 'MCStatistics');
 
@@ -75,7 +95,7 @@ if (Input::exists()) {
 // Retrieve link_location from cache
 $cache->setCache('nav_location');
 $link_location = $cache->retrieve('players_location');
-
+$leaderboard_link_location = $cache->retrieve('leaderboard_location');
 // Load modules + template
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
@@ -114,6 +134,8 @@ $smarty->assign([
     'LINK_NONE' => $language->get('admin', 'page_link_none'),
     'SHOW_STATS_ON_PROFILE' => $mcstatistics_language->get('general', 'show_stats_on_profile'),
     'SHOW_STATS_ON_PROFILE_VALUE' => Settings::get('display_profile', '1', 'MCStatistics'),
+    'LEADERBOARD_LINK_LOCATION' => $mcstatistics_language->get('general', 'leaderboard_link_location'),
+    'LEADERBOARD_LINK_LOCATION_VALUE' => $leaderboard_link_location,
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
 ]);
