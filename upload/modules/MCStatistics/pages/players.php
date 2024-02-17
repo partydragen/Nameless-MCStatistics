@@ -76,6 +76,7 @@ $smarty->assign([
     'TOKEN' => Token::get(),
     'SEARCH_URL' => URL::build('/players'),
     'SEARCH' => $language->get('general', 'search'),
+    'NO_DATA_AVAILABLE' => $mcstatistics_language->get('general', 'no_data_available'),
 ]);
 
 // Load modules + template

@@ -33,17 +33,6 @@
         {/if}
 
         <div class="ui {if count($WIDGETS_LEFT) && count($WIDGETS_RIGHT) }four wide tablet eight wide computer{elseif count($WIDGETS_LEFT) || count($WIDGETS_RIGHT)}ten wide tablet twelve wide computer{else}sixteen wide{/if} column">
-
-            {if isset($SUCCESS)}
-                <div class="ui success icon message">
-                    <i class="check icon"></i>
-                    <div class="content">
-                        <div class="header">{$SUCCESS_TITLE}</div>
-                        {$SUCCESS}
-                    </div>
-                </div>
-            {/if}
-
             {if isset($ERRORS)}
                 <div class="ui error icon message">
                     <i class="x icon"></i>
@@ -83,6 +72,8 @@
 
                 {$PAGINATION}
             </div>
+            {else}
+                <div class="ui orange message">{$NO_DATA_AVAILABLE}</div>
             {/if}
 
         </div>

@@ -3,6 +3,7 @@
     "general/settings":"Settings",
     "general/players":"Players",
     "general/player":"Player",
+    "general/leaderboard":"Leaderboard",
     "general/ingame":"Ingame",
     "general/search_for_player":"Search for player",
     "general/ingame_statistics":"Ingame Statistics",
@@ -45,5 +46,6 @@
     "general/playtime_requirement_not_meet": "You don't have enought playtime ingame within a certain time!",
     "general/player_playtime_not_found": "Player not found, Could not determine your player playtime requirement!",
     "general/online_on_server": "Online on {{server}}",
-    "general/offline": "Offline"
+    "general/offline": "Offline",
+    "general/view_all": "View all"
 }

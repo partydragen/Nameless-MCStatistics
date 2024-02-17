@@ -27,6 +27,8 @@ class MCStatistics_Module extends Module {
         // Define URLs which belong to this module
         $pages->add('MCStatistics', '/players', 'pages/players.php', 'players', true);
         $pages->add('MCStatistics', '/player', 'pages/player.php');
+        $pages->add('MCStatistics', '/leaderboard', 'pages/leaderboard.php', 'leaderboard', true);
+        $pages->add('MCStatistics', '/queries/leaderboard_list', 'queries/leaderboard_list.php');
 
         $pages->add('MCStatistics', '/panel/mcstatistics/settings', 'pages/panel/settings.php');
         $pages->add('MCStatistics', '/panel/mcstatistics/players', 'pages/panel/players.php');

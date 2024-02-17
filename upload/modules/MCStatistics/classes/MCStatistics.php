@@ -118,6 +118,10 @@ class MCStatistics {
     }
 
     public function getPlayers() {
+        if (!$this->isSetup()) {
+            return [];
+        }
+
         $this->_cache->setCache('mcstatistics_players');
         if (!$this->_cache->isCached('players')) {
             $header = ['headers' => [
@@ -137,7 +141,88 @@ class MCStatistics {
 
         return [];
     }
-    
+
+    public function getAllLeaderboards() {
+        if (!$this->isSetup()) {
+            return [];
+        }
+
+        $this->_cache->setCache('mcstatistics_leaderboards');
+        if (!$this->_cache->isCached('leaderboards')) {
+            $header = ['headers' => [
+                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+            ]];
+
+            $request = HttpClient::get('https://api.mcstatistics.org/v1/placeholders?leaderboard=true', $header);
+            if (!$request->hasError()) {
+                $json = $request->json();
+
+                $this->_cache->store('leaderboards', $json, 120);
+                return $json;
+            }
+        } else {
+            return $this->_cache->retrieve('leaderboards');
+        }
+
+        return [];
+    }
+
+    public function getLeaderboards(string $servername = null, string $leaderboard = null): array {
+        if (!$this->isSetup()) {
+            return [];
+        }
+
+        $leaderboards = [];
+        $json = $this->getAllLeaderboards();
+        if (isset($json->servers)) {
+            foreach ($json->servers as $server) {
+                if ($servername != null && strtolower($server->name) != strtolower($servername)) {
+                    continue;
+                }
+
+                foreach ($server->placeholders as $placeholder) {
+                    if ($leaderboard != null && strtolower($placeholder->friendly_name) != strtolower($leaderboard)) {
+                        continue;
+                    }
+
+                    $leaderboards[] = [
+                        'server_name' => Output::getClean($server->name),
+                        'friendly_name' => Output::getClean($placeholder->friendly_name),
+                        'link' => Url::build('/leaderboard/' . urlencode($server->name) . '/' . urlencode($placeholder->friendly_name))
+                    ];
+                }
+            }
+        }
+
+        return $leaderboards;
+    }
+
+    public function getLeaderboardPlayers(string $server, string $leaderboard) {
+        if (!$this->isSetup()) {
+            return [];
+        }
+
+        $cache_key = 'leaderboard_' . strtolower($leaderboard) . '_' . strtolower($server);
+        $this->_cache->setCache('mcstatistics_leaderboard');
+        if (!$this->_cache->isCached('leaderboards')) {
+            $header = ['headers' => [
+                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+            ]];
+
+            $request = HttpClient::get('https://api.mcstatistics.org/v1/leaderboard/' . urlencode($leaderboard) . '?server=' . urlencode($server), $header);
+            if (!$request->hasError()) {
+                $json = $request->json();
+
+                $this->_cache->store($cache_key, $json, 120);
+                return $json;
+            }
+        } else {
+            return $this->_cache->retrieve($cache_key);
+        }
+
+        return [];
+    }
+
     /*
      *  Check for Module updates
      *  Returns JSON object with information about any updates
