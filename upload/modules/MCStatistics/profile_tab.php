@@ -11,9 +11,13 @@
 
 $cache->setCache('mcstatistics');
 if(!$cache->isCached('user_' . $query->id)){
-    $integration = $profile_user->getIntegration('Minecraft');
-    if ($integration != null) {
-        $results = $mcstatistics->fetchPlayerFields(ProfileUtils::formatUUID($integration->data()->identifier));
+    if (Settings::get('uuid_linking')) {
+        $integration = $profile_user->getIntegration('Minecraft');
+        if ($integration != null) {
+            $results = $mcstatistics->fetchPlayerFields(ProfileUtils::formatUUID($integration->data()->identifier));
+        } else {
+            $results = $mcstatistics->fetchPlayerFields($query->username);
+        }
     } else {
         $results = $mcstatistics->fetchPlayerFields($query->username);
     }
