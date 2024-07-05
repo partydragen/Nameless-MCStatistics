@@ -48,6 +48,13 @@ class MCStatistics_Module extends Module {
             EventHandler::registerListener('renderForm', 'FormPlayerHook::minPlayerPlaytime');
         }
 
+        // Forms Integration
+        if (Util::isModuleEnabled('Giveaway')) {
+            require_once(ROOT_PATH . '/modules/MCStatistics/hooks/GiveawayPlayerHook.php');
+            EventHandler::registerListener(UserPreEntryGiveawayEvent::class, [GiveawayPlayerHook::class, 'minPlayerAge']);
+            EventHandler::registerListener(UserPreEntryGiveawayEvent::class, [GiveawayPlayerHook::class, 'minPlayerPlaytime']);
+        }
+
         // Check if module version changed
         $cache->setCache('mcstatistics_module_cache');
         if(!$cache->isCached('module_version')){
