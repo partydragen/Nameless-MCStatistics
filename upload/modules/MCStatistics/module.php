@@ -19,7 +19,7 @@ class MCStatistics_Module extends Module {
 
         $name = 'MCStatistics';
         $author = '<a href="https://partydragen.com" target="_blank" rel="nofollow noopener">Partydragen</a> and my <a href="https://partydragen.com/supporters/" target="_blank">Sponsors</a>';
-        $module_version = '1.3.1';
+        $module_version = '1.3.2';
         $nameless_version = '2.1.1';
 
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
