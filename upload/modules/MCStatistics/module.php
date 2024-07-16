@@ -13,7 +13,7 @@ class MCStatistics_Module extends Module {
     private $_language;
     private $_mcstatistics_language;
     
-    public function __construct($language, $mcstatistics_language, $pages, $queries, $navigation, $cache){
+    public function __construct(Language $language, Language $mcstatistics_language, Pages $pages, Cache $cache){
         $this->_language = $language;
         $this->_mcstatistics_language = $mcstatistics_language;
 
@@ -57,14 +57,14 @@ class MCStatistics_Module extends Module {
 
         // Check if module version changed
         $cache->setCache('mcstatistics_module_cache');
-        if(!$cache->isCached('module_version')){
+        if (!$cache->isCached('module_version')) {
             $cache->store('module_version', $module_version);
         } else {
-            if($module_version != $cache->retrieve('module_version')) {
+            if ($module_version != $cache->retrieve('module_version')) {
                 // Version have changed, Perform actions
                 $cache->store('module_version', $module_version);
                 
-                if($cache->isCached('update_check')){
+                if ($cache->isCached('update_check')){
                     $cache->erase('update_check');
                 }
             }

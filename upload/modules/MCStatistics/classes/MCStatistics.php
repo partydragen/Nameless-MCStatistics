@@ -125,7 +125,7 @@ class MCStatistics {
         $this->_cache->setCache('mcstatistics_players');
         if (!$this->_cache->isCached('players')) {
             $header = ['headers' => [
-                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+                'X-MCStatistics-Secret' => $this->_secret_key
             ]];
 
             $request = HttpClient::get('https://api.mcstatistics.org/v1/players', $header);
@@ -150,7 +150,7 @@ class MCStatistics {
         $this->_cache->setCache('mcstatistics_leaderboards');
         if (!$this->_cache->isCached('leaderboards')) {
             $header = ['headers' => [
-                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+                'X-MCStatistics-Secret' => $this->_secret_key
             ]];
 
             $request = HttpClient::get('https://api.mcstatistics.org/v1/placeholders?leaderboard=true', $header);
@@ -206,7 +206,7 @@ class MCStatistics {
         $this->_cache->setCache('mcstatistics_leaderboard');
         if (!$this->_cache->isCached('leaderboards')) {
             $header = ['headers' => [
-                'X-MCStatistics-Secret' => Settings::get('secret_key', '', 'MCStatistics')
+                'X-MCStatistics-Secret' => $this->_secret_key
             ]];
 
             $request = HttpClient::get('https://api.mcstatistics.org/v1/leaderboard/' . urlencode($leaderboard) . '?server=' . urlencode($server), $header);

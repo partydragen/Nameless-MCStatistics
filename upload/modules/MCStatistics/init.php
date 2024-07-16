@@ -16,7 +16,7 @@ $mcstatistics_language = new Language(ROOT_PATH . '/modules/MCStatistics/languag
 $mcstatistics = new MCStatistics($cache);
 
 require_once(ROOT_PATH . '/modules/MCStatistics/module.php');
-$module = new MCStatistics_Module($language, $mcstatistics_language, $pages, $queries, $navigation, $cache);
+$module = new MCStatistics_Module($language, $mcstatistics_language, $pages, $cache);
 
 // Profile page tab
 try {
