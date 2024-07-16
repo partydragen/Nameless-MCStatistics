@@ -25,6 +25,7 @@ class MCStatistics_Module extends Module {
         parent::__construct($this, $name, $author, $module_version, $nameless_version);
 
         // Define URLs which belong to this module
+        $pages->add('MCStatistics', '/servers', 'pages/servers.php', 'servers', true);
         $pages->add('MCStatistics', '/players', 'pages/players.php', 'players', true);
         $pages->add('MCStatistics', '/player', 'pages/player.php');
         $pages->add('MCStatistics', '/leaderboard', 'pages/leaderboard.php', 'leaderboard', true);
@@ -92,6 +93,44 @@ class MCStatistics_Module extends Module {
     public function onPageLoad($user, $pages, $cache, $smarty, $navs, $widgets, $template){
         // Add link to navbar
         $cache->setCache('nav_location');
+        if (!$cache->isCached('servers_location')) {
+            $link_location = 1;
+            $cache->store('servers_location', 1);
+        } else {
+            $link_location = $cache->retrieve('servers_location');
+        }
+
+        $cache->setCache('navbar_order');
+        if (!$cache->isCached('servers_order')) {
+            $order = 30;
+            $cache->store('servers_order', 31);
+        } else {
+            $order = $cache->retrieve('servers_order');
+        }
+
+        $cache->setCache('navbar_icons');
+        if (!$cache->isCached('servers_icon'))
+            $icon = '';
+        else
+            $icon = $cache->retrieve('servers_icon');
+
+        switch ($link_location) {
+            case 1:
+                // Navbar
+                $navs[0]->add('servers', $this->_mcstatistics_language->get('general', 'servers'), URL::build('/servers'), 'top', null, $order, $icon);
+                break;
+            case 2:
+                // "More" dropdown
+                $navs[0]->addItemToDropdown('more_dropdown', 'servers', $this->_mcstatistics_language->get('general', 'servers'), URL::build('/servers'), 'top', null, $icon, $order);
+                break;
+            case 3:
+                // Footer
+                $navs[0]->add('servers', $this->_mcstatistics_language->get('general', 'servers'), URL::build('/servers'), 'footer', null, $order, $icon);
+                break;
+        }
+
+        // Add link to navbar
+        $cache->setCache('nav_location');
         if (!$cache->isCached('players_location')) {
             $link_location = 1;
             $cache->store('players_location', 1);
@@ -139,7 +178,7 @@ class MCStatistics_Module extends Module {
 
         $cache->setCache('navbar_order');
         if (!$cache->isCached('leaderboard_order')) {
-            $order = 31;
+            $order = 32;
             $cache->store('leaderboard_order', 31);
         } else {
             $order = $cache->retrieve('leaderboard_order');

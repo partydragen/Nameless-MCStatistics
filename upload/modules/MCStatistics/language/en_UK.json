@@ -49,5 +49,8 @@
     "general/player_playtime_not_found": "Player not found, Could not determine your player playtime requirement!",
     "general/online_on_server": "Online on {{server}}",
     "general/offline": "Offline",
-    "general/view_all": "View all"
+    "general/view_all": "View all",
+    "general/servers": "Servers",
+    "general/server_offline": "Server Offline",
+    "general/x_players_online": "{{players}} players online"
 }

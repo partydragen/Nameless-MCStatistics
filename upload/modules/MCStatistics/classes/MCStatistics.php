@@ -142,6 +142,31 @@ class MCStatistics {
         return [];
     }
 
+    public function getServers() {
+        if (!$this->isSetup()) {
+            return [];
+        }
+
+        $this->_cache->setCache('mcstatistics_servers');
+        if (!$this->_cache->isCached('servers')) {
+            $header = ['headers' => [
+                'X-MCStatistics-Secret' => $this->_secret_key
+            ]];
+
+            $request = HttpClient::get('https://api.mcstatistics.org/v1/servers', $header);
+            if (!$request->hasError()) {
+                $json = $request->json();
+
+                $this->_cache->store('servers', $json, 120);
+                return $json;
+            }
+        } else {
+            return $this->_cache->retrieve('servers');
+        }
+
+        return [];
+    }
+
     public function getAllLeaderboards() {
         if (!$this->isSetup()) {
             return [];
