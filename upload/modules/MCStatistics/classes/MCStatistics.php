@@ -204,7 +204,7 @@ class MCStatistics {
 
         $cache_key = 'leaderboard_' . strtolower($leaderboard) . '_' . strtolower($server);
         $this->_cache->setCache('mcstatistics_leaderboard');
-        if (!$this->_cache->isCached('leaderboards')) {
+        if (!$this->_cache->isCached($cache_key)) {
             $header = ['headers' => [
                 'X-MCStatistics-Secret' => $this->_secret_key
             ]];
