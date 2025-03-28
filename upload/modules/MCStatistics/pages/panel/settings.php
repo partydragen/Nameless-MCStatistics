@@ -32,7 +32,25 @@ if (Input::exists()) {
         ]);
 
         if ($validation->passed()) {
-            // Get link location
+            // Update servers link location
+            if (isset($_POST['servers_link_location'])) {
+                switch($_POST['servers_link_location']) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        $location = $_POST['servers_link_location'];
+                        break;
+                    default:
+                        $location = 1;
+                }
+            } else {
+                $location = 1;
+            }
+            $cache->setCache('nav_location');
+            $cache->store('servers_location', $location);
+
+            // Update players link location
             if (isset($_POST['link_location'])) {
                 switch($_POST['link_location']) {
                     case 1:
@@ -47,12 +65,10 @@ if (Input::exists()) {
             } else {
                 $location = 1;
             }
-
-            // Update Link location cache
             $cache->setCache('nav_location');
             $cache->store('players_location', $location);
 
-            // Get link location
+            // Update leaderboard link location
             if (isset($_POST['leaderboard_link_location'])) {
                 switch($_POST['leaderboard_link_location']) {
                     case 1:
@@ -67,8 +83,6 @@ if (Input::exists()) {
             } else {
                 $location = 1;
             }
-
-            // Update leaderboard Link location cache
             $cache->setCache('nav_location');
             $cache->store('leaderboard_location', $location);
 
@@ -96,6 +110,8 @@ if (Input::exists()) {
 $cache->setCache('nav_location');
 $link_location = $cache->retrieve('players_location');
 $leaderboard_link_location = $cache->retrieve('leaderboard_location');
+$servers_link_location = $cache->retrieve('servers_location');
+
 // Load modules + template
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
@@ -136,6 +152,8 @@ $template->getEngine()->addVariables([
     'SHOW_STATS_ON_PROFILE_VALUE' => Settings::get('display_profile', '1', 'MCStatistics'),
     'LEADERBOARD_LINK_LOCATION' => $mcstatistics_language->get('general', 'leaderboard_link_location'),
     'LEADERBOARD_LINK_LOCATION_VALUE' => $leaderboard_link_location,
+    'SERVERS_LINK_LOCATION' => $mcstatistics_language->get('general', 'servers_link_location'),
+    'SERVERS_LINK_LOCATION_VALUE' => $servers_link_location,
     'TOKEN' => Token::get(),
     'SUBMIT' => $language->get('general', 'submit')
 ]);

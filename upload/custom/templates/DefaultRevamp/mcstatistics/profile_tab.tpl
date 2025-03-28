@@ -12,7 +12,7 @@
 
 {foreach from=$MCSTATISTICS_SERVERS item=server}
   <h3>{$server.name}</h3>
-  <hr>
+  <div class="ui divider"></div>
   <div class="ui grid">
   {foreach from=$server.fields item=field}
     <div class="four wide column">

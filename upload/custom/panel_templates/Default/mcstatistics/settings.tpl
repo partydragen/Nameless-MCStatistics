@@ -48,6 +48,15 @@
                                 <input id="inputSecretKey" name="secret_key" class="form-control" placeholder="{$SECRET_KEY}" value="{$SECRET_KEY_VALUE}">
                             </div>
                             <div class="form-group">
+                                <label for="servers_link_location">{$SERVERS_LINK_LOCATION}</label>
+                                <select class="form-control" id="servers_link_location" name="servers_link_location">
+                                    <option value="1"{if $SERVERS_LINK_LOCATION_VALUE eq 1} selected{/if}>{$LINK_NAVBAR}</option>
+                                    <option value="2"{if $SERVERS_LINK_LOCATION_VALUE eq 2} selected{/if}>{$LINK_MORE}</option>
+                                    <option value="3"{if $SERVERS_LINK_LOCATION_VALUE eq 3} selected{/if}>{$LINK_FOOTER}</option>
+                                    <option value="4"{if $SERVERS_LINK_LOCATION_VALUE eq 4} selected{/if}>{$LINK_NONE}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="link_location">{$LINK_LOCATION}</label>
                                 <select class="form-control" id="link_location" name="link_location">
                                     <option value="1"{if $LINK_LOCATION_VALUE eq 1} selected{/if}>{$LINK_NAVBAR}</option>
