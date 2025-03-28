@@ -40,7 +40,7 @@ if ($mcstatistics->isSetup()) {
         $results = $paginator->getLimited($json->players, 15, $p, $json->players_count);
         $pagination = $paginator->generate(7, URL::build('/players/'));
 
-        $smarty->assign('PAGINATION', $pagination);
+        $template->getEngine()->addVariable('PAGINATION', $pagination);
 
         $players_list = [];
         foreach ($results->data as $player) {
@@ -57,7 +57,7 @@ if ($mcstatistics->isSetup()) {
             ];
         }
 
-        $smarty->assign([
+        $template->getEngine()->addVariables([
             'PLAYERS_LIST' => $players_list,
             'PLAYER' => $mcstatistics_language->get('general', 'player'),
             'REGISTERED' => $mcstatistics_language->get('general', 'registered'),
@@ -71,7 +71,7 @@ if ($mcstatistics->isSetup()) {
     $errors[] = $mcstatistics_language->get('general', 'not_setup');
 }
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'PLAYERS' => $mcstatistics_language->get('general', 'players'),
     'TOKEN' => Token::get(),
     'SEARCH_URL' => URL::build('/players'),
@@ -83,24 +83,24 @@ $smarty->assign([
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 if (isset($success))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'SUCCESS' => $success,
         'SUCCESS_TITLE' => $language->get('general', 'success')
     ]);
 
 if (isset($errors) && count($errors))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'ERRORS' => $errors,
         'ERRORS_TITLE' => $language->get('general', 'error')
     ]);
 
 $template->onPageLoad();
 
-$smarty->assign('WIDGETS_LEFT', $widgets->getWidgets('left'));
-$smarty->assign('WIDGETS_RIGHT', $widgets->getWidgets('right'));
+$template->getEngine()->addVariable('WIDGETS_LEFT', $widgets->getWidgets('left'));
+$template->getEngine()->addVariable('WIDGETS_RIGHT', $widgets->getWidgets('right'));
 
 require(ROOT_PATH . '/core/templates/navbar.php');
 require(ROOT_PATH . '/core/templates/footer.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/players.tpl', $smarty);
+$template->displayTemplate('mcstatistics/players');

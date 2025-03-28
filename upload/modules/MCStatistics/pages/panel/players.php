@@ -40,20 +40,20 @@ if(Session::exists('mcstatistics_error'))
     $errors = array(Session::flash('mcstatistics_error'));
 
 if(isset($success)){
-    $smarty->assign(array(
+    $template->getEngine()->addVariables([
         'SUCCESS_TITLE' => $language->get('general', 'success'),
         'SUCCESS' => $success
-    ));
+    ]);
 }
 
 if(isset($errors) && count($errors)){
-    $smarty->assign(array(
+    $template->getEngine()->addVariables([
         'ERRORS_TITLE' => $language->get('general', 'error'),
         'ERRORS' => $errors
-    ));
+    ]);
 }
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
@@ -69,4 +69,4 @@ $template->onPageLoad();
 require(ROOT_PATH . '/core/templates/panel_navbar.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/players.tpl', $smarty);
+$template->displayTemplate('mcstatistics/players');

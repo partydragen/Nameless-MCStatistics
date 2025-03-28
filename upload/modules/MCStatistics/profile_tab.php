@@ -57,17 +57,17 @@ if ($results != null) {
             ];
         }
 
-        $smarty->assign('MCSTATISTICS_FIELDS', $fields);
-        $smarty->assign('MCSTATISTICS_SERVERS', $servers);
+        $template->getEngine()->addVariable('MCSTATISTICS_FIELDS', $fields);
+        $template->getEngine()->addVariable('MCSTATISTICS_SERVERS', $servers);
     }
 } else {
     $statistics_error = $mcstatistics_language->get('general', 'failed_to_fetch_player_data');
 }
 
 if (isset($statistics_error))
-    $smarty->assign('MCSTATISTICS_ERROR', $statistics_error);
+    $template->getEngine()->addVariable('MCSTATISTICS_ERROR', $statistics_error);
 
 // Smarty
-$smarty->assign([
+$template->getEngine()->addVariables([
     'INGAME_STATISTICS_TITLE' => $mcstatistics_language->get('general', 'ingame_statistics')
 ]);

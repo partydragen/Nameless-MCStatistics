@@ -48,7 +48,7 @@ if ($results != null) {
 }
 
 if (!isset($_GET['view'])) {
-    $template_file = 'mcstatistics/player.tpl';
+    $template_file = 'mcstatistics/player';
 } else {
     switch($_GET['view']) {
         case 'sessions':
@@ -70,34 +70,34 @@ if (!isset($_GET['view'])) {
                 );
             }
             
-            $smarty->assign(array(
+            $template->getEngine()->addVariables([
                 'SESSIONS_LIST' => $sessions_list,
                 'SESSION_START' => $mcstatistics_language->get('general', 'session_start'),
                 'SESSION_END' => $mcstatistics_language->get('general', 'session_end'),
                 'PLAY_TIME' => $mcstatistics_language->get('general', 'play_time'),
                 'VERSION' => $mcstatistics_language->get('general', 'version'),
                 'IP_ADDRESS' => $mcstatistics_language->get('general', 'ip_address'),
-            ));
+            ]);
         
-            $template_file = 'mcstatistics/player_sessions.tpl';
+            $template_file = 'mcstatistics/player_sessions';
         break;
         case 'ip_history':
             $ips_results = $mcstatistics->fetchPlayerIPHistory($results->_id);
 
             $ip_history_list = array();
             foreach($ips_results->ips as $ip) {
-                $ip_history_list[] = array(
+                $ip_history_list[] = [
                     'ip' => Output::getClean($ip->ip),
                     'sessions' => Output::getClean($ip->sessions)
-                );
+                ];
             }
             
-            $smarty->assign(array(
+            $template->getEngine()->addVariables([
                 'IP_HISTORY_LIST' => $ip_history_list,
                 'IP_ADDRESS' => $mcstatistics_language->get('general', 'ip_address'),
-            ));
+            ]);
         
-            $template_file = 'mcstatistics/player_ip_history.tpl';
+            $template_file = 'mcstatistics/player_ip_history';
         break;
     }
 }
@@ -110,23 +110,23 @@ if(Session::exists('mcstatistics_error'))
     $errors = array(Session::flash('mcstatistics_error'));
 
 if(isset($success)){
-    $smarty->assign(array(
+    $template->getEngine()->addVariables([
         'SUCCESS_TITLE' => $language->get('general', 'success'),
         'SUCCESS' => $success
-    ));
+    ]);
 }
 
 if(isset($errors) && count($errors)){
-    $smarty->assign(array(
+    $template->getEngine()->addVariables([
         'ERRORS_TITLE' => $language->get('general', 'error'),
         'ERRORS' => $errors
-    ));
+    ]);
 }
 
 $hours = $results->play_time / 1000 / 3600;
 $minutes = ($results->play_time / 1000 % 3600) / 60;
 
-$smarty->assign(array(
+$template->getEngine()->addVariables([
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
@@ -165,11 +165,11 @@ $smarty->assign(array(
     'BLOCKS_DESTROYED' => $mcstatistics_language->get("general", 'blocks_destroyed'),
     'BLOCKS_DESTROYED_VALUE' => Output::getClean($results->blocks_destroyed),
     'NO_DATA_AVAILABLE' => $mcstatistics_language->get('general', 'no_data_available'),
-));
+]);
 
 $template->onPageLoad();
 
 require(ROOT_PATH . '/core/templates/panel_navbar.php');
 
 // Display template
-$template->displayTemplate($template_file, $smarty);
+$template->displayTemplate($template_file);

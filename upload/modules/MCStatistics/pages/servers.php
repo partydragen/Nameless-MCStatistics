@@ -28,7 +28,7 @@ if ($mcstatistics->isSetup()) {
             ];
         }
 
-        $smarty->assign([
+        $template->getEngine()->addVariables([
             'SERVERS_LIST' => $servers_list,
         ]);
 
@@ -39,7 +39,7 @@ if ($mcstatistics->isSetup()) {
     $errors[] = $mcstatistics_language->get('general', 'not_setup');
 }
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'SERVERS' => $mcstatistics_language->get('general', 'servers'),
     'TOKEN' => Token::get(),
     'NO_DATA_AVAILABLE' => $mcstatistics_language->get('general', 'no_data_available'),
@@ -50,24 +50,24 @@ $smarty->assign([
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 if (isset($success))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'SUCCESS' => $success,
         'SUCCESS_TITLE' => $language->get('general', 'success')
     ]);
 
 if (isset($errors) && count($errors))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'ERRORS' => $errors,
         'ERRORS_TITLE' => $language->get('general', 'error')
     ]);
 
 $template->onPageLoad();
 
-$smarty->assign('WIDGETS_LEFT', $widgets->getWidgets('left'));
-$smarty->assign('WIDGETS_RIGHT', $widgets->getWidgets('right'));
+$template->getEngine()->addVariable('WIDGETS_LEFT', $widgets->getWidgets('left'));
+$template->getEngine()->addVariable('WIDGETS_RIGHT', $widgets->getWidgets('right'));
 
 require(ROOT_PATH . '/core/templates/navbar.php');
 require(ROOT_PATH . '/core/templates/footer.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/servers.tpl', $smarty);
+$template->displayTemplate('mcstatistics/servers');

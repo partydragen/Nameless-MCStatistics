@@ -44,7 +44,7 @@ if ($mcstatistics->isSetup()) {
             ];
         }
 
-        $smarty->assign('LEADERBOARD_LIST', $leaderboards_list);
+        $template->getEngine()->addVariable('LEADERBOARD_LIST', $leaderboards_list);
     }
 } else {
     $errors[] = $mcstatistics_language->get('general', 'not_setup');
@@ -61,7 +61,7 @@ if ($count >= 4 && $directories[$count - 3] == 'leaderboard') {
         Redirect::to(URL::build('/leaderboard'));
     }
 
-    $smarty->assign('VIEWING_LEADERBOARDS', $leaderboards);
+    $template->getEngine()->addVariable('VIEWING_LEADERBOARDS', $leaderboards);
     $viewing_list = $server . '_' . $leaderboard;
 } else if ($count >= 3 && $directories[$count - 2] == 'leaderboard') {
     // View server leaderboards
@@ -72,15 +72,15 @@ if ($count >= 4 && $directories[$count - 3] == 'leaderboard') {
         Redirect::to(URL::build('/leaderboard'));
     }
 
-    $smarty->assign('VIEWING_LEADERBOARDS', $leaderboards);
+    $template->getEngine()->addVariable('VIEWING_LEADERBOARDS', $leaderboards);
     $viewing_list = 'overview';
 } else {
     // Viewing leaderboards
-    $smarty->assign('VIEWING_LEADERBOARDS', $mcstatistics->getLeaderboards());
+    $template->getEngine()->addVariable('VIEWING_LEADERBOARDS', $mcstatistics->getLeaderboards());
     $viewing_list = 'overview';
 }
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'LEADERBOARD' => $mcstatistics_language->get('general', 'leaderboard'),
     'TOKEN' => Token::get(),
     'QUERIES_URL' => URL::build('/queries/leaderboard_list', 'server={{server}}&leaderboard={{leaderboard}}&page={{page}}&overview=' . ($viewing_list === 'overview' ? 'true' : 'false')),
@@ -93,24 +93,24 @@ $smarty->assign([
 Module::loadPage($user, $pages, $cache, $smarty, [$navigation, $cc_nav, $staffcp_nav], $widgets, $template);
 
 if (isset($success))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'SUCCESS' => $success,
         'SUCCESS_TITLE' => $language->get('general', 'success')
     ]);
 
 if (isset($errors) && count($errors))
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'ERRORS' => $errors,
         'ERRORS_TITLE' => $language->get('general', 'error')
     ]);
 
 $template->onPageLoad();
 
-$smarty->assign('WIDGETS_LEFT', $widgets->getWidgets('left'));
-$smarty->assign('WIDGETS_RIGHT', $widgets->getWidgets('right'));
+$template->getEngine()->addVariable('WIDGETS_LEFT', $widgets->getWidgets('left'));
+$template->getEngine()->addVariable('WIDGETS_RIGHT', $widgets->getWidgets('right'));
 
 require(ROOT_PATH . '/core/templates/navbar.php');
 require(ROOT_PATH . '/core/templates/footer.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/leaderboard.tpl', $smarty);
+$template->displayTemplate('mcstatistics/leaderboard');

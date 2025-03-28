@@ -83,7 +83,7 @@ $online = ($player->data()->last_seen / 1000) > strtotime('-5 minutes');
 
 $player_user = new User($player->data()->username, 'username');
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'USERNAME' => Output::getClean($player->data()->username),
     'AVATAR' => 'https://crafthead.net/body/' . $player->data()->uuid,
     'REGISTERED' => $mcstatistics_language->get('general', 'registered'),
@@ -116,4 +116,4 @@ require(ROOT_PATH . '/core/templates/navbar.php');
 require(ROOT_PATH . '/core/templates/footer.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/player.tpl', $smarty);
+$template->displayTemplate('mcstatistics/player');

@@ -103,20 +103,20 @@ if (Session::exists('mcstatistics_success'))
     $success = Session::flash('mcstatistics_success');
 
 if (isset($success)){
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'SUCCESS_TITLE' => $language->get('general', 'success'),
         'SUCCESS' => $success
     ]);
 }
 
 if (isset($errors) && count($errors)){
-    $smarty->assign([
+    $template->getEngine()->addVariables([
         'ERRORS_TITLE' => $language->get('general', 'error'),
         'ERRORS' => $errors
     ]);
 }
 
-$smarty->assign([
+$template->getEngine()->addVariables([
     'PARENT_PAGE' => PARENT_PAGE,
     'DASHBOARD' => $language->get('admin', 'dashboard'),
     'PAGE' => PANEL_PAGE,
@@ -145,4 +145,4 @@ $template->onPageLoad();
 require(ROOT_PATH . '/core/templates/panel_navbar.php');
 
 // Display template
-$template->displayTemplate('mcstatistics/settings.tpl', $smarty);
+$template->displayTemplate('mcstatistics/settings');
